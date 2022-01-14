@@ -1,0 +1,112 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Facture detaile {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-4 mb-md-0">
+			
+			<h2 class="h4">Facture {{ invoice.id }}</h2>
+		</div>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{% url 'export' invoice.id %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+				Export PDF
+			</a>
+			
+		</div>
+  	</div>
+  
+	<div class="table-settings mb-4">
+		<div class="row align-items-center justify-content-between">
+			<div class="col col-md-6 col-lg-3 col-xl-4">
+			</div>
+		</div>
+	</div>
+
+	<div class="card card-body border-0 shadow mb-4 mb-xl-0">
+		<div class="container">
+			<h1>Invoice: {{ invoice.magazin }}</h1>
+			<br>
+			<hr>
+			<br>
+			<br>
+			<div class="table-responsive">
+			<table class="table">
+				<tbody>
+				<tr>
+					<td><img src="https://host.tatiblockchain.co.za/img/skolo_logo.png" style="width: 100%; max-width: 100px" /></td>
+					<td></td>
+					<td></td>
+					<td>
+					Invoice #: <strong>{{invoice.id}}</strong><br />
+					Created: {{invoice.date_de_creation|date}}<br />
+					{% comment %} Due: {{invoice.dueDate}} {% endcomment %}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+			<br>
+			<div class="table-responsive">
+			<table class="table">
+				<tbody>
+				<tr>
+					<td>
+					<strong>{{invoice.operateur.username}}</strong> <br />
+					{{invoice.operateur.first_name}} <br/ >
+					{{invoice.operateur.last_name}} <br/ >
+					{{invoice.operateur.email}} <br/ >
+					{{invoice.operateur.telephone}}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+			<br>
+			<br>
+			<h1>Invoice Detail</h1>
+			<br>
+			<div class="table-responsive">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Type</th>
+					<th>Magazin</th>
+					<th>Totale</th>
+					<th>Etat</th>
+				</tr>
+				</thead>
+	
+	
+				<tbody>
+				<tr>
+					<td>{{invoice.type_operation}}</td>
+					<td>{{invoice.magazin}}</td>
+					<td>{{invoice.somme_operation}}</td>
+					<td>{{invoice.status}}</td>
+				</tr>
+				</tbody>
+	
+			</table>
+			</div>
+			<br>
+			<br>
+			<p>
+			{{invoice.description}}
+			</p>
+			<br/>		
+			<br/>		
+			<br/>		
+			<br/>		
+			<br/>		
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

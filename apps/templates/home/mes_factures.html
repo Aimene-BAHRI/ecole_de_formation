@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Mes Factures {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <div class="table-settings mb-4">
+      
+  </div>
+  
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">#</th>
+                  <th class="border-gray-200">Magazin</th>						
+                  <th class="border-gray-200">Type</th>
+                  <th class="border-gray-200">Date Creation</th>
+                  <th class="border-gray-200">Totale</th>
+                  <th class="border-gray-200">Status</th>
+                  <th class="border-gray-200">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in user.factures.all %}
+                <!-- Item -->
+                <tr>
+                    <td>
+                        <a href="#" class="fw-bold">
+                            {{item.id}}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="fw-normal">{{item.magazin}}</span>
+                    </td>
+                    <td><span class="fw-normal">{{item.type_operation}}</span></td>                        
+                    <td><span class="fw-normal">{{item.date_de_creation}}</span></td>
+                    <td><span class="fw-bold">{{item.somme_operation}}</span></td>
+                    <td><span class="fw-bold 
+                        {% if item.status == 'active'  %} text-success {% else %}text-warning{% endif %} ">{{item.status}}</span></td>
+                    <td>
+                        <a href="{% url 'facture_detail' item.id %}" class="fw-bold">
+                            detaile
+                        </a>
+                    </td>
+                </tr>
+                <!-- Item -->
+              {% endfor %}                                
+          </tbody>
+      </table>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

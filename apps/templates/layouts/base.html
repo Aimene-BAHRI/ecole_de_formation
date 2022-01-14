@@ -66,9 +66,11 @@
 
 </head>
 <body>
-
+  {% if user.is_superuser %}
     {% include 'includes/sidebar.html' %}
-    
+  {% else %}
+    {% include 'includes/parant_sidebar.html' %}
+  {% endif %}
     <main class="content">
 
       {% include 'includes/navigation.html' %}

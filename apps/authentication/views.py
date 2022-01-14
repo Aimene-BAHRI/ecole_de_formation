@@ -4,8 +4,10 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Create your views here.
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+
+from apps.home.forms import CustomPasswordChangeForm
 from .forms import LoginForm, SignUpForm
 
 
@@ -43,7 +45,7 @@ def register_user(request):
             raw_password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=raw_password)
 
-            msg = 'User created - please <a href="/login">login</a>.'
+            msg = 'User created - please <a href="{% "login" %}">login</a>.'
             success = True
 
             # return redirect("/login/")
@@ -54,3 +56,10 @@ def register_user(request):
         form = SignUpForm()
 
     return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
+
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.urls import reverse_lazy
+class PasswordsChangeView(PasswordChangeView):
+    form_class =  PasswordChangeForm 
+    success_url = reverse_lazy('home')           

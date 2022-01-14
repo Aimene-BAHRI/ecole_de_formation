@@ -1,0 +1,76 @@
+<div class="container">
+	<h1>Invoice: {{ invoice.magazin }}</h1>
+	<br>
+	<hr>
+	<br>
+	<br>
+	<div class="table-responsive">
+	<table class="table">
+		<tbody>
+		<tr>
+			<td><img src="https://host.tatiblockchain.co.za/img/skolo_logo.png" style="width: 100%; max-width: 100px" /></td>
+			<td></td>
+			<td></td>
+			<td>
+			Invoice #: <strong>{{invoice.id}}</strong><br />
+			Created: {{invoice.date_de_creation|date}}<br />
+			{% comment %} Due: {{invoice.dueDate}} {% endcomment %}
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	</div>
+	<br>
+	<div class="table-responsive">
+	<table class="table">
+		<tbody>
+		<tr>
+			<td>
+			<strong>{{invoice.operateur.username}}</strong> <br />
+			{{invoice.operateur.first_name}} <br/ >
+			{{invoice.operateur.last_name}} <br/ >
+			{{invoice.operateur.email}} <br/ >
+			{{invoice.operateur.telephone}}
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	</div>
+	<br>
+	<br>
+	<h1>Invoice Detail</h1>
+	<br>
+	<div class="table-responsive">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Type</th>
+			<th>Magazin</th>
+			<th>Totale</th>
+			<th>Etat</th>
+		</tr>
+		</thead>
+
+
+		<tbody>
+		<tr>
+			<td>{{invoice.type_operation}}</td>
+			<td>{{invoice.magazin}}</td>
+			<td>{{invoice.somme_operation}}</td>
+			<td>{{invoice.status}}</td>
+		</tr>
+		</tbody>
+
+	</table>
+	</div>
+	<br>
+	<br>
+	<p>
+	{{invoice.description}}
+	</p>
+	<br/>		
+	<br/>		
+	<br/>		
+	<br/>		
+	<br/>		
+</div>
