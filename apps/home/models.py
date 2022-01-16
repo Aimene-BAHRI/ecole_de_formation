@@ -5,6 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields.related import OneToOneField
 from django.utils import timezone
 
 from django.urls import reverse
@@ -19,20 +20,30 @@ class Parant(models.Model):
 	def __str__(self):
 		return '{}, {}'.format(self.prenom_parent, self.nom_parent)
 
-	def get_total_a_payer(self):
-		factures = Facture.objects.filter(operateur = self)
+	def get_total_paied(self):
+		factures = Facture.objects.filter(operateur = self.user)
 		total = 0
 		for facture in factures:
-			total = total + facture.somme_operation
+			if facture.status == 'closed':
+				total = total + facture.somme_operation
+		return total
+
+	def get_total_a_payer(self):
+		factures = Facture.objects.filter(operateur = self.user)
+		total = 0
+		for facture in factures:
+			if facture.status == 'active':
+				total = total + facture.somme_operation
 		return total
 
 	def get_fils_count(self):
 		fils = self.fils.all().count()
 		return fils
+
 class Fils(models.Model):
 	GENDER_CHOICES = (
-		("male", "Male"), 
-		("female", "Female")
+		("homme", "Homme"), 
+		("femme", "Femme")
 	)
 	NIVEAU_CHOICES = (
 		("prescolaire", "Prescolaire"),
@@ -43,23 +54,15 @@ class Fils(models.Model):
 	)
 	parant = models.ForeignKey(Parant, on_delete=models.CASCADE, related_name='fils')
 	prenom_fils = models.CharField("nom fils", max_length=200)
-	gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="male")
+	gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="homme")
 	date_of_birth = models.DateField(default=timezone.now)
 	niveau_etude = models.CharField("niveau d'etude", max_length=200, choices=NIVEAU_CHOICES, default='prescolaire')
-	matiere = models.ManyToManyField("Matiere", verbose_name="matiere", related_name="etudiants")
 
 	def __str__(self):
 		return '{}, {}'.format(self.prenom_fils, self.parant.prenom_parent)
 
 	def get_full_name(self):
 		return self.parant.nom_parent + self.prenom_etudiant
-
-class Matiere(models.Model):
-	nom_matiere = models.CharField(max_length=300, default='')
-	prix_matiere = models.DecimalField(max_digits=8, decimal_places=2)
-
-	def __str__(self):
-		return self.nom_matiere
 
 class Magazin(models.Model):
 	nom_magazin = models.CharField(max_length=300)
@@ -82,6 +85,15 @@ class Magazin(models.Model):
 			total = total + facture.somme_operation
 		return total
 	
+	def get_caisse(self):
+		return self.caisse + self.get_total_entrant() - self.get_total_sortant()
+
+class Villa (models.Model):
+	nom_villa = models.CharField(max_length=200)
+	magazin = models.OneToOneField(Magazin, on_delete=models.CASCADE, 
+				related_name="villa", blank=True, null=True)
+	def __str__(self):
+		return self.nom_villa
 class Facture(models.Model):
 	magazin = models.ForeignKey(Magazin, on_delete=models.CASCADE, related_name="factures_magazin")
 	operateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name="factures")
@@ -138,6 +150,20 @@ class Receipt(models.Model):
     def __str__(self):
         return f"Reçu le  {self.date_paid}"
 
+class Categorie(models.Model):
+	nom_categorie = models.CharField(max_length=200)
+	prix_categorie = models.DecimalField(max_digits=10, decimal_places=2)
+
+	def __str__(self):
+		return self.nom_categorie
+
+class Matiere(models.Model):
+	nom_matiere = models.CharField(max_length=300, default='')
+	prix_matiere = models.DecimalField(max_digits=8, decimal_places=2)
+
+	def __str__(self):
+		return self.nom_matiere
+
 class Cours_particulier(models.Model):
 	matiere = models.ForeignKey("Matiere", on_delete=models.CASCADE, verbose_name="matiere", related_name="courses")
 	categorie = models.ForeignKey("Categorie", on_delete=models.CASCADE, verbose_name="categorie", related_name="etudiants")
@@ -150,9 +176,3 @@ class Cours_particulier(models.Model):
 	def __str__(self):
 		return "etudiant {} ,matiere{}".format(self.get_full_name(),self.matiere)
 	
-class Categorie(models.Model):
-	nom_categorie = models.CharField(max_length=200)
-	prix_categorie = models.DecimalField(max_digits=10, decimal_places=2)
-
-	def __str__(self):
-		return self.nom_categorie

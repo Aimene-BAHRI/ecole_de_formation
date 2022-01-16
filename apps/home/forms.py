@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from apps.home.models import Parant
+from apps.home.models import Fils, Magazin, Matiere, Parant
 
 class UserProfileForm(forms.ModelForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Pseudo","class": "form-control"}))
@@ -18,9 +18,6 @@ class UserProfileForm(forms.ModelForm):
 from django.contrib.auth.forms import PasswordChangeForm
 
 class CustomPasswordChangeForm(PasswordChangeForm):
-	error_css_class = 'has-error'
-	error_messages = {'password_incorrect':
-				"L'ancien mot de passe n'est pas correct. Essayer à nouveau ."}
 	old_password = forms.CharField(required=True, label='ancien mot de passe',
 					widget=forms.PasswordInput(attrs={
 					'class': 'form-control'}),
@@ -38,9 +35,69 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 					error_messages={
 					'required': 'Le mot de passe ne peut pas être vide '})
 
-
 class ParantForm(forms.ModelForm):
-	user = UserCreationForm
+	nom_parent = forms.CharField(required=True, label='Le nom du parant',
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+	prenom_parent = forms.CharField(required=True, label='Le prenom du parant',
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+	telephone = forms.CharField(required=True, label='Le numero de telephone du parant',
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
 	class Meta:
 		model = Parant
-		fields = '__all__'
+		fields = ('nom_parent', 'prenom_parent', 'telephone')
+
+class StudentForm(forms.ModelForm):
+	GENDER_CHOICES = (
+		("homme", "Homme"), 
+		("femme", "Femme")
+	)
+	NIVEAU_CHOICES = (
+		("prescolaire", "Prescolaire"),
+		("preparatoire", "Preparatoire"), 
+		("primaire", "Primaire"),
+		("moyenne", "Moyenne"),
+		("lycéenne", "Lycéenne")
+	)
+	parant = forms.ModelChoiceField(queryset=Parant.objects.all(),
+					required=True, label='Le nom du parant',
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+	prenom_fils = forms.CharField(required=True, label="Le prenom d'etudiant",
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+	gender = forms.ChoiceField(choices=GENDER_CHOICES, 
+					required=True, label='Le sexe',
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+	date_of_birth = forms.DateField(required=True, label="La date de naisssance",
+					input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+					widget=forms.DateInput(attrs={
+						'class': 'form-control',
+						'id' : 'birthday',
+						'type': 'text',
+						'placeholder':"date/mois/annee",
+						'data-datepicker':""}))
+
+	niveau_etude = forms.ChoiceField(choices=NIVEAU_CHOICES,
+					required=True, label="Niveau d'etude",
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+	class Meta:
+		model = Fils
+		fields = ('parant', 'prenom_fils', 'gender', 'date_of_birth', 'niveau_etude')
+
+class MagazinForm(forms.ModelForm):
+	nom_magazin = forms.CharField(required=True, label='Le nom du magazin',
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+	caisse = forms.CharField(required=True, label='La caisse',
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+	
+	class Meta:
+		model = Magazin
+		fields = ('nom_magazin', 'caisse')
+

@@ -13,9 +13,9 @@ from .forms import LoginForm, SignUpForm
 
 def login_view(request):
     form = LoginForm(request.POST or None)
-
     msg = None
-
+    if request.user.is_authenticated:
+        return redirect("/")
     if request.method == "POST":
 
         if form.is_valid():
@@ -61,5 +61,5 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
 class PasswordsChangeView(PasswordChangeView):
-    form_class =  PasswordChangeForm 
+    form_class =  CustomPasswordChangeForm 
     success_url = reverse_lazy('home')           

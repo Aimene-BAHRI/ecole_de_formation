@@ -9,7 +9,7 @@
 	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
 		<div class="d-block mb-4 mb-md-0">
 			
-			<h2 class="h4">Tous les parants {{ invoice.id }}</h2>
+			<h2 class="h4">Tous les parants</h2>
 		</div>
 		<div class="btn-toolbar mb-2 mb-md-0">
 			<a href="{% url 'create_parant' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
@@ -52,8 +52,12 @@
                     <td><span class="fw-bold">{{item.user.email}}</span></td>
                     <td><span class="fw-bold ">{{item.get_fils_count}}</span></td>
                     <td>
-                        <a href="{% url 'facture_detail' item.id %}" class="fw-bold">
-                            detaile
+						<a href="{% url 'parant' item.id %}" class="fw-bold text-success">
+                            Voir parant
+                        </a>
+                        <br>
+                        <a href="{% url 'delete_parant' item.id %}" class="fw-bold text-danger">
+                            Supprimer parant
                         </a>
                     </td>
                 </tr>

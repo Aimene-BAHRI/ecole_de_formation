@@ -9,6 +9,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import get_object_or_404, render, redirect
+
+
+from apps.authentication.forms import SignUpForm
 from .models import *
 from .forms import *
 @login_required(login_url="login")
@@ -18,26 +22,41 @@ def index(request):
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
 
+from django.contrib.auth.decorators import user_passes_test
+def staff_required(login_url=None):
+    return user_passes_test(lambda u: u.is_staff, login_url=login_url)
+
+@staff_required(login_url="login")
 @login_required(login_url="login")
 def dashboard(request):
-    context = {'segment': 'dashboard'}
+    data = []
+    revenue = Magazin.objects.all()
+    context = {
+        'segment': 'dashboard',
+
+    }
 
     html_template = loader.get_template('home/dashboard.html')
     return HttpResponse(html_template.render(context, request))
 
-@login_required(login_url='login')
-def parants(request):
-    context = {'segment': 'parants'}
-
-    html_template = loader.get_template('home/parant/parants.html')
-    return HttpResponse(html_template.render(context, request))
-
 # Administrations CRUD
+# PARANT
 @login_required(login_url='login')
 def create_parant(request):
     parant_form = ParantForm()
-    user_form = UserCreationForm()
+    user_form = SignUpForm()
     print('HI')
+    if request.method == 'POST':
+        parant_form = ParantForm(request.POST or None)
+        user_form = SignUpForm(request.POST or None)
+        if user_form.is_valid() and parant_form.is_valid():
+            user_instance = user_form.save()
+
+            parant = parant_form.save(commit=False)
+            parant.user = user_instance
+            parant.save()
+        return redirect(reverse('parants'))
+
     context = {
         'segment' : 'create_parant',
         'user_form' : user_form,
@@ -46,6 +65,60 @@ def create_parant(request):
 
     html_template = loader.get_template('home/parant/create_parant.html')
     return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def parants(request):
+    parants = Parant.objects.all()
+    context = {
+        'segment': 'parants',
+        'parants' : parants    
+    }
+
+    html_template = loader.get_template('home/parant/parants.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def create_parant(request):
+    parant_form = ParantForm()
+    user_form = SignUpForm()
+    print('HI')
+    if request.method == 'POST':
+        parant_form = ParantForm(request.POST or None)
+        user_form = SignUpForm(request.POST or None)
+        if user_form.is_valid() and parant_form.is_valid():
+            user_instance = user_form.save()
+
+            parant = parant_form.save(commit=False)
+            parant.user = user_instance
+            parant.save()
+        return redirect(reverse('parants'))
+
+    context = {
+        'segment' : 'create_parant',
+        'user_form' : user_form,
+        'parant_form' : parant_form
+    }
+
+    html_template = loader.get_template('home/parant/create_parant.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def parant(request, pk):
+    parant = Parant.objects.get(id= pk)
+    context = {
+        'segment': 'parant',
+        'parant' : parant   
+    }
+
+    html_template = loader.get_template('home/parant/parant.html')
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url='login')
+def delete_parant(request, pk):
+    object = Parant.objects.get(id = pk)
+    object.delete()
+    return redirect(reverse('parants'))
 
 @login_required(login_url="login")
 def profile(request):
@@ -133,5 +206,109 @@ def export_pdf(request, pk):
     facture = Facture.objects.get(pk = pk)
     return render_to_pdf_response(request,'home/renderdetail.html', {'invoice':facture})
 
+# FILS
+def create_student(request):
+    student_form = StudentForm()
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST or None)
+        if student_form.is_valid() :
+            student_form.save()
+            return redirect(reverse('students'))
+        else:
+            print(student_form.errors)
+    context = {
+        'segment' : 'create_magazin',
+        'student_form' : student_form,
+    }
+    html_template = loader.get_template('home/student/create_student.html')
+    return HttpResponse(html_template.render(context, request))
 
+@login_required(login_url='login')
+def students(request):
+    students = Fils.objects.all()
+    context = {
+        'segment': 'students',
+        'students' : students    
+    }
+
+    html_template = loader.get_template('home/student/students.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def student(request, pk):
+    student = Fils.objects.get(id= pk)
+    student_form = StudentForm(request.POST or None, instance = student)
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST or None, instance=student)
+        if student_form.is_valid() :
+            student_form.save()
+        return redirect(reverse('students'))
+    context = {
+        'segment': 'student',
+        'student' : student,
+        'student_form' : student_form   
+    }
+
+    html_template = loader.get_template('home/student/student.html')
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url='login')
+def delete_student(request, pk):
+    object = Fils.objects.get(id = pk)
+    object.delete()
+    return redirect(reverse('students'))
+
+# MAGAZIN
+@login_required(login_url='login')
+def create_magazin(request):
+    magazin_form = MagazinForm()
+    if request.method == 'POST':
+        magazin_form = MagazinForm(request.POST or None)
+        if magazin_form.is_valid() :
+            magazin_form.save()
+        return redirect(reverse('magazins'))
+
+    context = {
+        'segment' : 'create_magazin',
+        'magazin_form' : magazin_form,
+    }
+
+    html_template = loader.get_template('home/magazin/create_magazin.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def magazins(request):
+    magazins = Magazin.objects.all()
+    context = {
+        'segment': 'magazins',
+        'magazins' : magazins    
+    }
+
+    html_template = loader.get_template('home/magazin/magazins.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def magazin(request, pk):
+    magazin = get_object_or_404(Magazin, pk = pk)
+    magazin_form = MagazinForm(instance=magazin)
+    if request.method == 'POST':
+        magazin_form = MagazinForm(request.POST or None, instance=magazin)
+        if magazin_form.is_valid() :
+            magazin_form.save()
+        return redirect(reverse('magazins'))
+
+    context = {
+        'segment' : 'magazin',
+        'magazin_form' : magazin_form,
+    }
+
+    html_template = loader.get_template('home/magazin/magazin.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def delete_magazin(request, pk):
+    object = Magazin.objects.get(id = pk)
+    object.delete()
+    return redirect(reverse('magazins'))
 

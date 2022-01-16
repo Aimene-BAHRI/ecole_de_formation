@@ -1,0 +1,68 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Les Etudiants {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-4 mb-md-0">
+			
+			<h2 class="h4">Tous les Etudiants </h2>
+		</div>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{% url 'create_student' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+				Ajouter etudiant
+			</a>
+			
+		</div>
+	</div>
+  <div class="table-settings mb-4">
+      
+  </div>
+  
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">#</th>
+                  <th class="border-gray-200">Parant</th>						
+                  <th class="border-gray-200">Prenom etudiant</th>
+                  <th class="border-gray-200">sexe</th>
+                  <th class="border-gray-200">date de naissance</th>
+                  <th class="border-gray-200">Niveau d'etude</th>
+                  <th class="border-gray-200">Matiere</th>
+                  <th class="border-gray-200">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in  students %}
+                <!-- Item -->
+                <tr>
+                    <td><a href="#" class="fw-bold">{{item.id}}</a></td>
+                    <td><span class="fw-normal">{{item.parant}}</span></td>
+                    <td><span class="fw-normal">{{item.prenom_fils}}</span></td>                        
+                    <td><span class="fw-normal">{{item.gender}}</span></td>
+                    <td><span class="fw-bold">{{item.date_of_birth | date}}</span></td>
+                    <td><span class="fw-bold ">{{item.niveau_etude}}</span></td>
+                    <td>
+						<a href="{% url 'student' item.id %}" class="fw-bold text-success">
+                            Voir etudiant
+                        </a>
+                        <br>
+                        <a href="{% url 'delete_student' item.id %}" class="fw-bold text-danger">
+                            Supprimer etudiant
+                        </a>
+                    </td>
+                </tr>
+                <!-- Item -->
+              {% endfor %}                                
+          </tbody>
+      </table>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

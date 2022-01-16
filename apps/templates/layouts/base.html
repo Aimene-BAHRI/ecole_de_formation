@@ -23,7 +23,7 @@
 <!-- Primary Meta Tags -->
 
 <title>
-    Django Volt Dashboard - {% block title %}{% endblock %} | AppSeed
+    Ecole de formation - {% block title %}{% endblock %}
 </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -61,6 +61,13 @@
 <link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
 <link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
 
+<!-- FA Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
+      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- DATEPICKER CDN-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+
 <!-- Specific Page JS goes HERE  -->    
 {% block stylesheets %}{% endblock stylesheets %}
 
@@ -79,7 +86,7 @@
 
       {% include 'includes/settings-box.html' %}
 
-      {% include 'includes/footer.html' %}
+      {% comment %} {% include 'includes/footer.html' %} {% endcomment %}
 
     </main>
 
@@ -87,6 +94,12 @@
     
   <!-- Specific Page JS goes HERE  -->
   {% block javascripts %}{% endblock javascripts %}  
-      
+  <script>
+		$(function () {
+      $("#datetimepicker1").datetimepicker({
+        format: 'dd/mm/yyyy',
+      });
+    });
+  </script>
 </body>
 </html>
