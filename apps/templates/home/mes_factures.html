@@ -6,8 +6,18 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        
+        <h2 class="h4">Tous Mes Factures </h2>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        
+        
+    </div>
+</div>
   <div class="table-settings mb-4">
-      
+    
   </div>
   
   <div class="card card-body border-0 shadow table-wrapper table-responsive">
@@ -39,7 +49,7 @@
                     <td><span class="fw-normal">{{item.date_de_creation}}</span></td>
                     <td><span class="fw-bold">{{item.somme_operation}}</span></td>
                     <td><span class="fw-bold 
-                        {% if item.status == 'active'  %} text-success {% else %}text-warning{% endif %} ">{{item.status}}</span></td>
+                        {% if item.status == 'validée et payée'  %} text-success {% else %}text-warning{% endif %} ">{{item.status}}</span></td>
                     <td>
                         <a href="{% url 'facture_detail' item.id %}" class="fw-bold">
                             detaile
