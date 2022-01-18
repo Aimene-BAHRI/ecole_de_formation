@@ -1,10 +1,39 @@
 # private training school (ecole de formation)
 
-<img width="250" src="screenshots/logo.png">
+<img width="250" src="screenshots/logo.jpg">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-## Description:# [Django Bootstrap 5](https://appseed.us/admin-dashboards/django-dashboard-volt) Volt
+## Description:# Django Bootstrap 5 Volt Training School
+This project is a web plateforme for School_managment made with Django Framework, it contains a CRUD managment for the school details and all its rubrics like the Parants, the students and all other staff and teachers.
+It contains an Invoice and Stock managments and a dashboard visualisation page.
+
+
+## Screenshots:
+### A HOME PAGE Bootstrap 5 UI:
+<img src="screenshots/home_page.png">
+
+### Login UI:
+<img src="screenshots/login_page.png">
+
+### Dashboard UI:
+<img src="screenshots/dashboard.png">
+
+### Dashboard Profile UI:
+<img src="screenshots/profile.png">
+
+
+## TODO:
+- [ ] Switch from sqlite to poistgresql.
+- [ ] Minimize the Media Files size.
+- [ ] ADD a CRM to controle the Test and Exams results.
+
+
+## Tools & languages:    
+* Visual Studio Code (IDE).
+* Python (Logic code).
+* Django template language (DTL) (UI Library).
+* HTML & CSS & BOOTSTRAP5 (UI Design).
 
 ## ✨ How to use it
 
@@ -37,90 +66,10 @@ $
 $ # Access the web app in browser: http://127.0.0.1:8000/
 ```
 
-> Note: To use the app, please access the registration page and create a new user. After authentication, the app will unlock the private pages.
+> Note: To use the app, please create a super user . After authentication, the app will unlock the private pages.
 
 <br />
 
-## ✨ Enable Custom Admin Theme
-
-> Full Documentation available on PyPi and Github: [Django Admin Volt](https://pypi.org/project/django-admin-volt/)
-
-```
-$ pip install django-admin-volt
-// OR
-$ pip install git+https://github.com/app-generator/django-admin-volt.git
-```
-
-<br />
-
-## Code-base structure
-
-The project is coded using a simple and intuitive structure presented bellow:
-
-```bash
-< PROJECT ROOT >
-   |
-   |-- core/                               # Implements app configuration
-   |    |-- settings.py                    # Defines Global Settings
-   |    |-- wsgi.py                        # Start the app in production
-   |    |-- urls.py                        # Define URLs served by all apps/nodes
-   |
-   |-- apps/
-   |    |
-   |    |-- home/                          # A simple app that serve HTML files
-   |    |    |-- views.py                  # Serve HTML pages for authenticated users
-   |    |    |-- urls.py                   # Define some super simple routes  
-   |    |
-   |    |-- authentication/                # Handles auth routes (login and register)
-   |    |    |-- urls.py                   # Define authentication routes  
-   |    |    |-- views.py                  # Handles login and registration  
-   |    |    |-- forms.py                  # Define auth forms (login and register) 
-   |    |
-   |    |-- static/
-   |    |    |-- <css, JS, images>         # CSS files, Javascripts files
-   |    |
-   |    |-- templates/                     # Templates used to render pages
-   |         |-- includes/                 # HTML chunks and components
-   |         |    |-- navigation.html      # Top menu component
-   |         |    |-- sidebar.html         # Sidebar component
-   |         |    |-- footer.html          # App Footer
-   |         |    |-- scripts.html         # Scripts common to all pages
-   |         |
-   |         |-- layouts/                   # Master pages
-   |         |    |-- base-fullscreen.html  # Used by Authentication pages
-   |         |    |-- base.html             # Used by common pages
-   |         |
-   |         |-- accounts/                  # Authentication pages
-   |         |    |-- login.html            # Login page
-   |         |    |-- register.html         # Register page
-   |         |
-   |         |-- home/                      # UI Kit Pages
-   |              |-- index.html            # Index page
-   |              |-- 404-page.html         # 404 page
-   |              |-- *.html                # All other pages
-   |
-   |-- requirements.txt                     # Development modules - SQLite storage
-   |
-   |-- .env                                 # Inject Configuration via Environment
-   |-- manage.py                            # Start the app - Django default start script
-   |
-   |-- ************************************************************************
-```
-
-<br />
-
-> The bootstrap flow
-
-- Django bootstrapper `manage.py` uses `core/settings.py` as the main configuration file
-- `core/settings.py` loads the app magic from `.env` file
-- Redirect the guest users to Login page
-- Unlock the pages served by *app* node for authenticated users
-
-<br />
-
-## ✨ Recompile CSS
-
-To recompile SCSS files, follow this setup:
 
 <br />
 
