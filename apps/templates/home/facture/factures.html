@@ -1,0 +1,72 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Les Factures {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-4 mb-md-0">
+			
+			<h2 class="h4">Tous les Factures </h2>
+		</div>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{% url 'create_facture' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+				Ajouter Facture
+			</a>
+			
+		</div>
+	</div>
+  <div class="table-settings mb-4">
+      
+  </div>
+  
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">#</th>
+                  <th class="border-gray-200">Magazin</th>						
+                  <th class="border-gray-200">Operateur</th>						
+                  <th class="border-gray-200">Type Operation</th>
+                  <th class="border-gray-200">Totale</th>
+                  <th class="border-gray-200">Date de creation</th>
+                  <th class="border-gray-200">Etat de facture</th>
+                  <th class="border-gray-200">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in  factures %}
+                <!-- Item -->
+                <tr>
+                    <td><a href="#" class="fw-bold">{{item.id}}</a></td>
+                    <td><span class="fw-normal">{{item.magazin}}</span></td>
+                    <td><span class="fw-normal">{{item.operateur}}</span></td>                        
+                    <td><span class="fw-normal">{{item.type_operation}}</span></td>                        
+                    <td><span class="fw-normal">{{item.somme_operation}}</span></td>                        
+                    <td><span class="fw-normal">{{item.date_de_creation}}</span></td>
+                    <td><span class="fw-normal {% if item.status == 'active'  %} text-success {% else %}text-warning{% endif %}">
+                        {{item.status}}
+                        </span>
+                    </td>                        
+                    <td>
+						<a href="{% url 'facture' item.id %}" class="fw-bold text-success">
+                            Voir facture
+                        </a>
+                        <br>
+                        <a href="{% url 'delete_facture' item.id %}" class="fw-bold text-danger">
+                            Supprimer facture
+                        </a>
+                    </td>
+                </tr>
+                <!-- Item -->
+              {% endfor %}                                
+          </tbody>
+      </table>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

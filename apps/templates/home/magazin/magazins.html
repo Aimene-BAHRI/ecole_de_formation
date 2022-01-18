@@ -39,7 +39,15 @@
                 <tr>
                     <td><a href="#" class="fw-bold">{{item.id}}</a></td>
                     <td><span class="fw-normal">{{item.nom_magazin}}</span></td>
-                    <td><span class="fw-normal">{{item.villa}}</span></td>                        
+                    <td><span class="fw-normal">
+                        {% if item.villa %}
+                            {{item.villa }}
+                            {% else %}
+                            _____________
+                            {% endif %}
+                        </span>
+                        </span>
+                    </td>                        
                     <td><span class="fw-normal">{{item.get_caisse}}</span></td>
                     <td>
 						<a href="{% url 'magazin' item.id %}" class="fw-bold text-success">

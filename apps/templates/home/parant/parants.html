@@ -49,7 +49,14 @@
                     </td>
                     <td><span class="fw-normal">{{item.prenom_parent}}</span></td>                        
                     <td><span class="fw-normal">{{item.telephone}}</span></td>
-                    <td><span class="fw-bold">{{item.user.email}}</span></td>
+                    <td><span class="fw-bold">
+                        {% if item.user.email %}
+                            {{item.user.email}}
+                            {% else %}
+                            _____________
+                            {% endif %}
+                        </span>
+                    </td>
                     <td><span class="fw-bold ">{{item.get_fils_count}}</span></td>
                     <td>
 						<a href="{% url 'parant' item.id %}" class="fw-bold text-success">

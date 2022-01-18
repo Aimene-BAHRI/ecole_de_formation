@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from apps.home.models import Fils, Magazin, Matiere, Parant
+from apps.home.models import Facture, Fils, Magazin, Matiere, Parant
 
 class UserProfileForm(forms.ModelForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Pseudo","class": "form-control"}))
@@ -100,4 +100,52 @@ class MagazinForm(forms.ModelForm):
 	class Meta:
 		model = Magazin
 		fields = ('nom_magazin', 'caisse')
+
+class FactureForm(forms.ModelForm):
+	Operration_ch = (
+					("entrée", "entrée"),
+					("sortie" , "sortie"))
+	magazin = forms.ModelChoiceField(queryset=Magazin.objects.all(),
+					required=True, label='Le nom du magazin',
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+
+	operateur = forms.ModelChoiceField(queryset=User.objects.all(),
+					required=True, label="L'operateur",
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+
+	type_operation = forms.ChoiceField(choices=Operration_ch,
+					required=True, label="Le type d'operation",
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+
+	somme_operation = forms.DecimalField(max_digits=100, decimal_places=2,
+						required=True, label="Le frais d'operation",
+						widget=forms.NumberInput(attrs={
+						'class': 'form-control'}))
+
+	description = forms.CharField(required=True, label="Description",
+					widget=forms.TextInput(attrs={
+					'class': 'form-control'}))
+					
+	date_de_creation = forms.DateField(
+					required=True, label="La date de creation du facture",
+					input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+					widget=forms.DateInput(attrs={
+						'class': 'form-control',
+						'id' : 'birthday',
+						'type': 'text',
+						'placeholder':"",
+						'data-datepicker':""}))
+
+	status = forms.ChoiceField(
+					choices=[("validée et payée", "Validée Et Payée"), ("pas encore", "Pas Encore")],
+					required=True, label="L'etat de facture",
+					widget=forms.Select(attrs={
+					'class': 'form-control'}))
+	class Meta:
+		model = Facture
+		fields = '__all__'
+
 

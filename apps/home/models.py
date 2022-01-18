@@ -24,7 +24,7 @@ class Parant(models.Model):
 		factures = Facture.objects.filter(operateur = self.user)
 		total = 0
 		for facture in factures:
-			if facture.status == 'closed':
+			if facture.status == 'validée et payée':
 				total = total + facture.somme_operation
 		return total
 
@@ -32,7 +32,7 @@ class Parant(models.Model):
 		factures = Facture.objects.filter(operateur = self.user)
 		total = 0
 		for facture in factures:
-			if facture.status == 'active':
+			if facture.status == 'pas encore':
 				total = total + facture.somme_operation
 		return total
 
@@ -72,7 +72,10 @@ class Magazin(models.Model):
 		return self.nom_magazin
 	
 	def get_total_entrant(self):
-		factures = Facture.objects.filter(magazin = self, type_operation = 'entrée')
+		factures = Facture.objects.filter(
+			magazin = self, 
+			type_operation = 'entrée',
+			status = 'validée et payée')
 		total = 0
 		for facture in factures:
 			total = total + facture.somme_operation
@@ -80,7 +83,10 @@ class Magazin(models.Model):
 	
 	def get_total_sortant(self):
 		total = 0
-		factures = Facture.objects.filter(magazin = self, type_operation = 'sortie')
+		factures = Facture.objects.filter(
+			magazin = self, 
+			type_operation = 'sortie',
+			status = 'validée et payée')
 		for facture in factures:
 			total = total + facture.somme_operation
 		return total
@@ -94,6 +100,7 @@ class Villa (models.Model):
 				related_name="villa", blank=True, null=True)
 	def __str__(self):
 		return self.nom_villa
+
 class Facture(models.Model):
 	magazin = models.ForeignKey(Magazin, on_delete=models.CASCADE, related_name="factures_magazin")
 	operateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name="factures")
@@ -102,9 +109,9 @@ class Facture(models.Model):
 	description = models.CharField(max_length=200)
 	date_de_creation = models.DateField(auto_now_add=True)
 	status = models.CharField(
-        max_length=20,
-        choices=[("active", "Active"), ("closed", "Closed")],
-        default="active",
+        max_length=30,
+        choices=[("validée et payée", "Validée Et Payée"), ("pas encore", "Pas Encore")],
+        default="validée et payée",
     )
 
 	def __str__(self):

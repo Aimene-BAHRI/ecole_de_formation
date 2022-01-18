@@ -30,6 +30,12 @@ urlpatterns = [
     path('magazins/<pk>', views.magazin, name="magazin"),
     path('magazins/delete/<pk>', views.delete_magazin, name="delete_magazin"),
 
+    # Facture
+    path('factures/', views.factures, name="factures"),
+    path('factures/create', views.create_facture, name="create_facture"),
+    path('factures/<pk>', views.facture, name="facture"),
+    path('factures/delete/<pk>', views.delete_facture, name="delete_facture"),
+
     # Matiere
     # path('matieres/', views.delete_parant, name="delete_parant"),
     # path('matieres/create', views.delete_parant, name="delete_parant"),

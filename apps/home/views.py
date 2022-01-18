@@ -29,10 +29,21 @@ def staff_required(login_url=None):
 @staff_required(login_url="login")
 @login_required(login_url="login")
 def dashboard(request):
-    data = []
-    revenue = Magazin.objects.all()
+    parants = Parant.objects.all()
+    students = Fils.objects.all()
+    magazins = Magazin.objects.all()
+    factures = Facture.objects.all()
+
     context = {
         'segment': 'dashboard',
+        'parants' : parants,
+        'parants_count' : parants.count(),
+        'students' : students,
+        'students_count' : students.count(),
+        'magazins' : magazins,
+        'magazins_count' : magazins.count(),
+        'factures' : factures,
+        'factures_count' : factures.count()
 
     }
 
@@ -117,8 +128,10 @@ def parant(request, pk):
 @login_required(login_url='login')
 def delete_parant(request, pk):
     object = Parant.objects.get(id = pk)
-    object.delete()
-    return redirect(reverse('parants'))
+    if request.method == 'POST':
+        object.delete()
+        return redirect(reverse('parants'))
+    return render(request,'home/Object_delete.html',{'object': object})
 
 @login_required(login_url="login")
 def profile(request):
@@ -256,8 +269,10 @@ def student(request, pk):
 @login_required(login_url='login')
 def delete_student(request, pk):
     object = Fils.objects.get(id = pk)
-    object.delete()
-    return redirect(reverse('students'))
+    if request.method == 'POST':
+        object.delete()
+        return redirect(reverse('students'))
+    return render(request,'home/Object_delete.html',{'object': object})
 
 # MAGAZIN
 @login_required(login_url='login')
@@ -309,6 +324,62 @@ def magazin(request, pk):
 @login_required(login_url='login')
 def delete_magazin(request, pk):
     object = Magazin.objects.get(id = pk)
-    object.delete()
-    return redirect(reverse('magazins'))
+    if request.method == 'POST':
+        object.delete()
+        return redirect(reverse('magazins'))
+    return render(request,'home/Object_delete.html',{'object': object})
 
+# FACTURE
+@login_required(login_url='login')
+def create_facture(request):
+    facture_form = FactureForm()
+    if request.method == 'POST':
+        facture_form = FactureForm(request.POST or None)
+        if facture_form.is_valid() :
+            facture_form.save()
+        return redirect(reverse('factures'))
+
+    context = {
+        'segment' : 'create_facture',
+        'facture_form' : facture_form,
+    }
+
+    html_template = loader.get_template('home/facture/create_facture.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def factures(request):
+    factures = Facture.objects.all()
+    context = {
+        'segment': 'factures',
+        'factures' : factures    
+    }
+
+    html_template = loader.get_template('home/facture/factures.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def facture(request, pk):
+    facture = get_object_or_404(Facture, pk = pk)
+    facture_form = FactureForm(instance=facture)
+    if request.method == 'POST':
+        facture_form = FactureForm(request.POST or None, instance=facture)
+        if facture_form.is_valid() :
+            facture_form.save()
+        return redirect(reverse('factures'))
+
+    context = {
+        'segment' : 'facture',
+        'facture_form' : facture_form,
+    }
+
+    html_template = loader.get_template('home/facture/facture.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def delete_facture(request, pk):
+    object = Facture.objects.get(id = pk)
+    if request.method == 'POST':
+        object.delete()
+        return redirect(reverse('factures'))
+    return render(request,'home/Object_delete.html',{'object': object})

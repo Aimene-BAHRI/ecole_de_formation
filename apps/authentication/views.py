@@ -4,12 +4,13 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Create your views here.
+import imp
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 
 from apps.home.forms import CustomPasswordChangeForm
 from .forms import LoginForm, SignUpForm
-
+from apps.home.views import staff_required
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -32,7 +33,7 @@ def login_view(request):
 
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
-
+@staff_required(login_url="login")
 def register_user(request):
     msg = None
     success = False
