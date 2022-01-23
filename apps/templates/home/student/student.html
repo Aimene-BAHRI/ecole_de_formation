@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        
+		Info personnelles
     </div>
     <div class="row">
         <div class="col-12 col-xl-12">
@@ -16,65 +16,24 @@
         </div>
         <div class="col-12 col-xl-12">
 			<form method="post" action="" class="mt-4">
-                                
 				{% csrf_token %}
-				<!-- Form -->
-				<div class="form-group">
-					<label for="{{ student_form.parant.label }}">{{ student_form.parant.label }}</label>
-					<div class="input-group">
-						<span class="input-group-text" id="basic-addon1">
-							<span class="fas fa-user-circle"></span>
-						</span>
-						{{ student_form.parant }}
-					</div>  
-				</div>
-				<!-- End of Form -->
-				<!-- Form -->
-				<div class="form-group">
-					<label for="{{ student_form.prenom_fils.label }}">{{ student_form.prenom_fils.label }}</label>
-					<div class="input-group">
-						<span class="input-group-text" id="basic-addon1">
-							<span class="fas fa-child"></span>
-						</span>
-						{{ student_form.prenom_fils }}
-					</div>  
-				</div>
-				<!-- End of Form -->
-				<!-- Form -->
-				<div class="form-group">
-					<label for="{{ student_form.gender.label }}">{{ student_form.gender.label }}</label>
-					<div class="input-group">
-						<span class="input-group-text" id="basic-addon1">
-							<span class="fas fa-venus-mars"></span>
-						</span>
-						{{ student_form.gender }}
-					</div>  
-				</div>
-				<!-- End of Form -->
-				<!-- BirthDay Form -->
-				<div class="form-group">
-					<label for="{{ student_form.date_of_birth.label }}">{{ student_form.date_of_birth.label }}</label>
-					<div class='input-group'>
-						<span class="input-group-text">
-							<span class="fa fa-calendar"></span>
-						</span>
-						
-						{{ student_form.date_of_birth }}
+				<div class="container-fluid">
+					<div class="row">
+					{% for field in student_form %}
+						<!-- Form -->
+						<div class="col-md-4 form-group">
+							<label for="{{ field.label }}">{{ field.label }}</label>
+							<div class="input-group">
+								<span class="input-group-text" id="basic-addon1">
+									<span class="fas fa-user-circle"></span>
+								</span>
+								{{ field }}
+							</div>
+						</div>
+						<!-- End of Form -->
+					{% endfor %}
 					</div>
-					
 				</div>
-				<!-- End of Form -->
-				<!-- Form -->
-				<div class="form-group">
-					<label for="{{ student_form.niveau_etude.label }}">{{ student_form.niveau_etude.label }}</label>
-					<div class="input-group">
-						<span class="input-group-text" id="basic-addon1">
-							<span class="fas fa-layer-group"></span>
-						</span>
-						{{ student_form.niveau_etude }}
-					</div>  
-				</div>
-				<!-- End of Form -->								
 				<div class="d-grid">
 					<button type="submit" name="register" class="btn btn-gray-800 mt-3">Modifier</button>
 				</div>
@@ -82,7 +41,22 @@
 			<br />
         </div>
     </div>
+	{% if student.activities %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		Les Activitées
+    </div>
+	<div class="row">
+		<div class="col-12 col-xl-12">
 
+        </div>
+        <div class="col-12 col-xl-12">
+			{% for activity in student.activities %}
+			{{activity }}
+			{% endfor %}
+			<br />
+        </div>
+    </div>
+	{% endif %}
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

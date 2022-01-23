@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Mes Enfants {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+
+        <h2 class="h4">Tous Mes Enfants </h2>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+
+
+    </div>
+</div>
+  <div class="table-settings mb-4">
+
+  </div>
+
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">#</th>
+                  <th class="border-gray-200">Nom</th>
+                  <th class="border-gray-200">Image</th>
+                  <th class="border-gray-200">Niveau d'etude</th>
+                  <th class="border-gray-200">Activities</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in mes_enfants %}
+                <!-- Item -->
+                <tr>
+                    <td>
+                        <a href="#" class="fw-bold">
+                            {{item.id}}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="fw-normal">{{item.get_full_name}}</span>
+                    </td>
+                    <td><img class="fw-normal" src ="{{item.student_avatar.url}}" width="60px"/></td>
+                    <td><span class="fw-normal">{{item.study_level}}</span></td>
+                    <td>
+                        {% if item.activities %}
+                            <span class="fw-bold">{{ item.activities }}</span>
+                        {% else %}
+                            <span class="fw-normal">0 activité </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Item -->
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Profile {% endblock %} 
+{% block title %} Profile {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -8,7 +8,6 @@
 {% block content %}
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        
     </div>
     <div class="row">
         <div class="col-12 col-xl-12">
@@ -19,51 +18,181 @@
                 <div class="col-12 mb-4">
                     <div class="card shadow border-0 text-center p-0">
                         <div class="profile-cover rounded-top" data-background="/static/assets/img/profile-cover.jpg"></div>
-                        <div class="card-body pb-5">
-                            <img src="/static/assets/img/team/profile-picture-1.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
-                            <h4 class="h3">
-                                {{  parant.nom_parant }}
-                            </h4>
-                            <h5 class="fw-normal">
-                                {{ parant.user.username }}
-                            </h5>
-                            <p class="text-gray mb-4">
-                                {{ parant.user.email }}
-                            </p>
-							<p class="text-gray mb-4">
-								total deja payer : {{ parant.get_total_paied }} <br>
-								total reste a payer : {{ parant.get_total_a_payer }} <br>
-							   	Nombre de fils : {{ parant.get_fils_count }} <br>
-                            </p>
-                        </div>
-                      </div>
-                </div>
-				{% for  fils in parant.fils.all %}
-					<div class="col-3">
-						<div class="card card-body border-0 shadow mb-4">
-							<h2 class="h5 mb-4">{{ fils.prenom_fils}}</h2>
-							<div class="d-flex align-items-center">
-								<div class="me-3">
-									<!-- Avatar -->
-									<img class="rounded avatar-xl" src="/static/assets/img/team/profile-picture-3.jpg" alt="change avatar">
-								</div>
-								<div class="file-field">
-									<div class="d-flex justify-content-xl-center ms-xl-3">
-										<div class="d-flex">
-											<div class="d-md-block text-left">
-												<div class="fw-normal text-dark mb-1">{{  fils.gender }}</div>
-												<div class="fw-normal text-dark mb-1">{{  fils.niveau_etude }}</div>
-												<div class="text-gray small">{{  fils.date_of_birth | date }}</div>
+                        <div class="card-body pb-5 align-items-left">
+                            {% if parant.father_avatar %}
+                                <img src="{{ parant.father_avatar.url }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            {% else %}
+                                <img src="/static/assets/img/team/profile-picture-1.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            {% endif %}
+                            <h2 class="h5 mb-4">Information Générale</h2>
+							<form method="post" action="" class="" enctype="multipart/form-data">
+								{% csrf_token %}
+								<hr>
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.father_name.label}}">{{parant_form.father_name.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-user-circle"></span>
+												</span>
+												{{ parant_form.father_name }}
 											</div>
 										</div>
+										<!-- End of Form -->
 									</div>
-								</div>                                        
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.father_profession.label}}">{{parant_form.father_profession.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-user-tie"></span>
+												</span>
+												{{ parant_form.father_profession }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.father_phone.label}}">{{parant_form.father_phone.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-mobile-alt"></span>
+												</span>
+												{{ parant_form.father_phone }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.father_avatar.label}}">{{parant_form.father_avatar.label}}</label>
+											<div class="input-group">
+												{{ parant_form.father_avatar }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.mother_name.label}}">{{parant_form.mother_name.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-female"></span>
+												</span>
+												{{ parant_form.mother_name }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.mother_profession.label}}">{{parant_form.mother_profession.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-user-tie"></span>
+												</span>
+												{{ parant_form.mother_profession }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{parant_form.mother_phone.label}}">{{parant_form.mother_phone.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-phone"></span>
+												</span>
+												{{ parant_form.mother_phone }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group">
+											<label for="{{parant_form.subscribed_plan.label}}">{{parant_form.subscribed_plan.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-money-bill"></span>
+												</span>
+												{{ parant_form.subscribed_plan }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+									<div class="col-md-12">
+										<!-- Form -->
+										<div class="form-group">
+											<label for="{{parant_form.authorized_people.label}}">{{parant_form.authorized_people.label}}</label>
+											<div class="input-group">
+												<span class="input-group-text" id="basic-addon1">
+													<span class="fas fa-users"></span>
+												</span>
+												{{ parant_form.authorized_people }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+								</div>
+								<div class="d-grid">
+									<button type="submit" name="register" class="btn btn-gray-800 mt-3">Modifier</button>
+								</div>
+							</form>
+                        </div>
+					</div>
+                </div>
+				<hr>
+				<div class="card card-body border-0 shadow mb-4">
+					<p class="text-gray mb-4">
+						total deja payer : {{ parant.get_total_paied }} <br>
+						total reste a payer : {{ parant.get_total_a_payer }} <br>
+						   Nombre de fils : {{ parant.get_fils_count }} <br>
+					</p>
+				</div>
+				{% for fils in parant.fils.all %}
+				<div class="col-3">
+					<div class="card card-body border-0 shadow mb-4">
+						<h2 class="h5 mb-4">{{ fils.student_firstname }} , {{ fils.student_name }}</h2>
+						<div class="d-flex align-items-center">
+							<div class="me-3">
+								<!-- Avatar -->
+								{% if fils.student_avatar %}
+									<img class="rounded avatar-xl" src="{{ fils.student_avatar.url }}" alt="change avatar">
+								{% else %}
+									<img class="rounded avatar-xl" src="/static/assets/img/team/profile-picture-3.jpg" alt="change avatar">
+								{% endif %}
+							</div>
+							<div class="file-field">
+								<div class="d-flex justify-content-xl-center ms-xl-3">
+									<div class="d-flex">
+										<div class="d-md-block text-left">
+											<div class="fw-normal text-dark mb-1">{{ fils.student_gender }}</div>
+											<div class="fw-normal text-dark mb-1">{{ fils.study_level }}</div>
+											<div class="text-gray small">{{ fils.date_of_birth | date }}</div>
+											<div class="text-gray small">{{ fils.place_of_birth }}</div>
+											<div class="text-gray small">{{ fils.place_of_birth }}</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 				{% endfor %}
-                
-                
             </div>
         </div>
     </div>

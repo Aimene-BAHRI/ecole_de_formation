@@ -171,12 +171,12 @@ d.addEventListener("DOMContentLoaded", function(event) {
 
     //Chartist
 
-    if(d.querySelector('.ct-chart-sales-value')) {
+    if(d.querySelector('.ct-chart-sales-value2')) {
         //Chart 5
-          new Chartist.Line('.ct-chart-sales-value', {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          new Chartist.Line('.ct-chart-sales-value2', {
+            labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'oct', 'Nov', 'Dec'],
             series: [
-                [0, 10, 30, 40, 80, 60, 100]
+                [0, 10, 30, 40, 80, 60, 100, 100, 100, 100, 100, 100]
             ]
           }, {
             low: 0,

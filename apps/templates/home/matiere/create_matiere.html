@@ -1,6 +1,6 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Etudiant {% endblock %}
+{% block title %} Creation matiere {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -20,7 +20,7 @@
                     <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-800">
                         <div class="text-center text-md-center mb-4 mt-md-0">
                             <h1 class="mb-0 h3">
-                                Creation Etudiant
+                                Creation Matiere
                             </h1>
                             <br />
                             <p>
@@ -33,23 +33,7 @@
                         </div>
                         <form method="post" action="" class="" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="row">
-                                {% for field in student_form %}
-                                    <div class="col-md-4 mb-3">
-                                        <!-- Form -->
-                                        <div class="form-group mb-4">
-                                            <label for="{{field.label}}">{{field.label}}</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <span class="fas fa-user-circle"></span>
-                                                </span>
-                                                {{ field }}
-                                            </div>
-                                        </div>
-                                        <!-- End of Form -->
-                                    </div>
-                                {% endfor %}
-                            </div>
+                            {{ matiere_form }}
                             <div class="d-grid">
                                 <button type="submit" name="register" class="btn btn-gray-800 mt-3">Création</button>
                             </div>

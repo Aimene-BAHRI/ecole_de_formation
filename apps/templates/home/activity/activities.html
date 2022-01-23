@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Les Magazins {% endblock %}
+{% block title %} Les Activités  {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -8,12 +8,12 @@
 {% block content %}
 	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
 		<div class="d-block mb-4 mb-md-0">
-
-			<h2 class="h4">Tous les Magazins </h2>
+			
+			<h2 class="h4">Tous les activités</h2>
 		</div>
 		<div class="btn-toolbar mb-2 mb-md-0">
-			<a href="{% url 'create_magazin' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-				Ajouter magazin
+			<a href="{% url 'create_activity' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+				Ajouter activité
 			</a>
 
 		</div>
@@ -27,25 +27,32 @@
           <thead>
               <tr>
                   <th class="border-gray-200">#</th>
-                  <th class="border-gray-200">Magazin</th>
-                  <th class="border-gray-200">la caisse</th>
+                  <th class="border-gray-200">Nom de l'activité</th>
+                  <th class="border-gray-200">prix de l'activité</th>
                   <th class="border-gray-200">Action</th>
               </tr>
           </thead>
           <tbody>
-              {% for item in  magazins %}
+              {% for item in activties %}
                 <!-- Item -->
                 <tr>
-                    <td><a href="#" class="fw-bold">{{item.id}}</a></td>
-                    <td><span class="fw-normal">{{item.nom_magazin}}</span></td>
-                    <td><span class="fw-normal">{{item.get_caisse}}</span></td>
                     <td>
-						<a href="{% url 'magazin' item.id %}" class="fw-bold text-success">
-                            Voir magazin
+                        <a href="#" class="fw-bold">
+                            {{item.id}}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="fw-normal">{{item.activity_name}}</span>
+                    </td>
+                    <td><span class="fw-normal">{{item.activity_price}}</span></td>
+
+                    <td>
+						<a href="{% url 'activity' item.id %}" class="fw-bold text-success">
+                            modifer activité
                         </a>
                         <br>
-                        <a href="{% url 'delete_magazin' item.id %}" class="fw-bold text-danger">
-                            Supprimer magazin
+                        <a href="{% url 'delete_activity' item.id %}" class="fw-bold text-danger">
+                            Supprimer activité
                         </a>
                     </td>
                 </tr>

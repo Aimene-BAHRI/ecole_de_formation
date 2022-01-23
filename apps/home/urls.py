@@ -11,19 +11,19 @@ urlpatterns = [
     # The home page
     path('', views.index, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    # parants
+
+    # Parant
     path('parants/create', views.create_parant, name="create_parant"),
     path('parants/', views.parants, name="parants"),
     path('parants/<pk>', views.parant, name="parant"),
-    # path('parants/update/<pk>', views.update_parant, name="update_parant"),
     path('parants/delete/<pk>', views.delete_parant, name="delete_parant"),
-    # Fils
+
+    # Student
     path('students/', views.students, name="students"),
     path('students/create', views.create_student, name="create_student"),
     path('students/<pk>', views.student, name="student"),
-    # path('students/update/<pk>', views.update_student, name="update_student"),
     path('students/delete/<pk>', views.delete_student, name="delete_student"),
-    
+
     # Magazin
     path('magazins/', views.magazins, name="magazins"),
     path('magazins/create', views.create_magazin, name="create_magazin"),
@@ -37,17 +37,29 @@ urlpatterns = [
     path('factures/delete/<pk>', views.delete_facture, name="delete_facture"),
 
     # Matiere
-    # path('matieres/', views.delete_parant, name="delete_parant"),
-    # path('matieres/create', views.delete_parant, name="delete_parant"),
-    # path('matieres/update/<pk>', views.delete_parant, name="delete_parant"),
-    # path('matieres/delete/<pk>', views.delete_parant, name="delete_parant"),
+    path('matieres/', views.matieres, name="matieres"),
+    path('matieres/create', views.create_matiere, name="create_matiere"),
+    path('matieres/update/<pk>', views.matiere, name="matiere"),
+    path('matieres/delete/<pk>', views.delete_matiere, name="delete_matiere"),
 
-    # Parant SIMPLE UDAGE URLS
+    # Cours_Particulier
+    path('courses/', views.courses, name="courses"),
+    path('courses/create', views.create_cours, name="create_cours"),
+    path('courses/update/<pk>', views.cours, name="cours"),
+    path('courses/delete/<pk>', views.delete_cours, name="delete_cours"),
+
+    # Parent SIMPLE UDAGE URLS
     path('profile/', views.profile, name='profile'),
     path('mes_factures/', views.mes_factures, name='mes_factures'),
     path('mes_factures/<pk>', views.facture_detail, name='facture_detail'),
     path('export_pdf/<pk>', views.export_pdf, name='export'),
     path('mes_enfants/', views.mes_enfants, name='mes_enfants'),
+
+    # Activity
+    path('activities/', views.activities, name="activities"),
+    path('activities/create', views.create_activity, name="create_activity"),
+    path('activities/update/<pk>', views.activity, name="activity"),
+    path('activities/delete/<pk>', views.delete_activity, name="delete_activity"),
 
     # Matches any html file
     # re_path(r'^.*\.*', views.pages, name='pages'),

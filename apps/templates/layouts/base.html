@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Primary Meta Tags -->
 
@@ -68,7 +68,7 @@
 <!-- DATEPICKER CDN-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
 
-<!-- Specific Page JS goes HERE  -->    
+<!-- Specific Page JS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
@@ -82,7 +82,7 @@
 
       {% include 'includes/navigation.html' %}
 
-      {% block content %}{% endblock content %} 
+      {% block content %}{% endblock content %}
 
       {% comment %} {% include 'includes/settings-box.html' %} {% endcomment %}
 
@@ -91,15 +91,8 @@
     </main>
 
   {% include 'includes/scripts.html' %}
-    
+
   <!-- Specific Page JS goes HERE  -->
-  {% block javascripts %}{% endblock javascripts %}  
-  <script>
-		$(function () {
-      $("#datetimepicker1").datetimepicker({
-        format: 'dd/mm/yyyy',
-      });
-    });
-  </script>
+  {% block javascripts %}{% endblock javascripts %}
 </body>
 </html>

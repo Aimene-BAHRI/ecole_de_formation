@@ -27,10 +27,11 @@
           <thead>
               <tr>
                   <th class="border-gray-200">#</th>
-                  <th class="border-gray-200">Magazin</th>						
-                  <th class="border-gray-200">Operateur</th>						
+                  <th class="border-gray-200">Magazin</th>
+                  <th class="border-gray-200">Operateur</th>
                   <th class="border-gray-200">Type Operation</th>
                   <th class="border-gray-200">Totale</th>
+                  <th class="border-gray-200">Reste</th>
                   <th class="border-gray-200">Date de creation</th>
                   <th class="border-gray-200">Etat de facture</th>
                   <th class="border-gray-200">Action</th>
@@ -42,16 +43,20 @@
                 <tr>
                     <td><a href="#" class="fw-bold">{{item.id}}</a></td>
                     <td><span class="fw-normal">{{item.magazin}}</span></td>
-                    <td><span class="fw-normal">{{item.operateur}}</span></td>                        
-                    <td><span class="fw-normal">{{item.type_operation}}</span></td>                        
-                    <td><span class="fw-normal">{{item.somme_operation}}</span></td>                        
+                    <td><span class="fw-normal">{{item.operateur}}</span></td>
+                    <td><span class="fw-normal {% if item.type_operation == 'entrée'  %} text-primary {% else %}text-warning{% endif %}">
+                        {{item.type_operation}}
+                        </span>
+                    </td>
+                    <td><span class="fw-normal">{{item.somme_operation}}</span></td>
+                    <td><span class="fw-bold">{{item.reste_a_paier}}</span></td>
                     <td><span class="fw-normal">{{item.date_de_creation}}</span></td>
                     <td><span class="fw-normal {% if item.status == 'validée et payée'  %} text-success {% else %}text-warning{% endif %}">
                         {{item.status}}
                         </span>
-                    </td>                        
+                    </td>
                     <td>
-						<a href="{% url 'facture' item.id %}" class="fw-bold text-success">
+						<a href="{% url 'facture' item.id %}" class="fw-bold text-info">
                             Voir facture
                         </a>
                         <br>
@@ -61,7 +66,7 @@
                     </td>
                 </tr>
                 <!-- Item -->
-              {% endfor %}                                
+              {% endfor %}
           </tbody>
       </table>
   </div>

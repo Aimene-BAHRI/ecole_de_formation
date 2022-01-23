@@ -1,6 +1,6 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Creation du nouveau magazin {% endblock %} 
+{% block title %} Creation du nouveau magazin {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -29,14 +29,13 @@
                                         {{ msg | safe }}
                                     {% else %}
                                         ajouter vos données
-                                    {% endif %}                                     
-                                </p> 
+                                    {% endif %}
+                                </p>
                             </div>
                             <form method="post" action="" class="mt-4">
-                                
                                 {% csrf_token %}
 
-                                {{ facture_form}}
+                                {{ facture_form }}
                                 <div class="d-grid">
                                     <button type="submit" name="register" class="btn btn-gray-800 mt-3">Création</button>
                                 </div>

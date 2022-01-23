@@ -27,10 +27,10 @@ class LoginForm(forms.Form):
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
-        label="Pseudo Nom",
+        label="Le nom d'Utilisateur",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Pseudo Nom",
+                "placeholder": "Le nom d'Utilisateur",
                 "class": "form-control"
             }
         ))

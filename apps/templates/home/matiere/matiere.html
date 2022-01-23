@@ -1,0 +1,64 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Matiere {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12">
+
+        </div>
+        <div class="col-12 col-xl-12">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card shadow border-0 text-center p-0">
+                        <div class="profile-cover rounded-top" data-background="/static/assets/img/profile-cover.jpg"></div>
+                        <div class="card-body pb-5">
+                            {{ matiere_form }}
+                        </div>
+                      </div>
+                </div>
+				{% for  fils in parant.fils.all %}
+				<div class="col-3">
+					<div class="card card-body border-0 shadow mb-4">
+						<h2 class="h5 mb-4">{{ fils.student_firstname }} , {{ fils.student_name }}</h2>
+						<div class="d-flex align-items-center">
+							<div class="me-3">
+								<!-- Avatar -->
+								{% if fils.student_avatar %}
+									<img class="rounded avatar-xl" src="{{ fils.student_avatar.url }}" alt="change avatar">
+								{% else %}
+									<img class="rounded avatar-xl" src="/static/assets/img/team/profile-picture-3.jpg" alt="change avatar">
+								{% endif %}
+							</div>
+							<div class="file-field">
+								<div class="d-flex justify-content-xl-center ms-xl-3">
+									<div class="d-flex">
+										<div class="d-md-block text-left">
+											<div class="fw-normal text-dark mb-1">{{ fils.student_gender }}</div>
+											<div class="fw-normal text-dark mb-1">{{ fils.study_level }}</div>
+											<div class="text-gray small">{{ fils.date_of_birth | date }}</div>
+											<div class="text-gray small">{{ fils.place_of_birth }}</div>
+											<div class="text-gray small">{{ fils.place_of_birth }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

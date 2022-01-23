@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home',  # Enable the inner home (home)
-    'easy_pdf'
+    'easy_pdf',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +123,8 @@ STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'static'),
 )
 
-
+MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
+MEDIA_URL = '/media/'
 #############################################################
 #############################################################
 

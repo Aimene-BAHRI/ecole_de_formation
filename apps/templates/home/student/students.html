@@ -27,12 +27,11 @@
           <thead>
               <tr>
                   <th class="border-gray-200">#</th>
-                  <th class="border-gray-200">Parant</th>						
+                  <th class="border-gray-200">Parent</th>						
                   <th class="border-gray-200">Prenom etudiant</th>
                   <th class="border-gray-200">sexe</th>
                   <th class="border-gray-200">date de naissance</th>
                   <th class="border-gray-200">Niveau d'etude</th>
-                  <th class="border-gray-200">Matiere</th>
                   <th class="border-gray-200">Action</th>
               </tr>
           </thead>
@@ -41,11 +40,11 @@
                 <!-- Item -->
                 <tr>
                     <td><a href="#" class="fw-bold">{{item.id}}</a></td>
-                    <td><span class="fw-normal">{{item.parant}}</span></td>
-                    <td><span class="fw-normal">{{item.prenom_fils}}</span></td>                        
-                    <td><span class="fw-normal">{{item.gender}}</span></td>
+                    <td><span class="fw-normal">{{item.parent.father_name}}</span></td>
+                    <td><span class="fw-normal">{{item.student_firstname}}</span></td>
+                    <td><span class="fw-normal">{{item.student_gender}}</span></td>
                     <td><span class="fw-bold">{{item.date_of_birth | date}}</span></td>
-                    <td><span class="fw-bold ">{{item.niveau_etude}}</span></td>
+                    <td><span class="fw-bold ">{{item.study_level}}</span></td>
                     <td>
 						<a href="{% url 'student' item.id %}" class="fw-bold text-success">
                             Voir etudiant
@@ -57,7 +56,7 @@
                     </td>
                 </tr>
                 <!-- Item -->
-              {% endfor %}                                
+              {% endfor %}
           </tbody>
       </table>
   </div>

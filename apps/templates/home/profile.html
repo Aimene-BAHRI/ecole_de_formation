@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Profile {% endblock %} 
+{% block title %} Profile {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -72,32 +72,6 @@
     <div class="row">
         <div class="col-12 col-xl-12">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Information Générale</h2>
-                <form>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div>
-                                <label for="first_name">Prenom</label>
-                                {{ form.first_name }}
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div>
-                                <label for="last_name">Nom</label>
-                                {{ form.last_name }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                {{ form.email }}
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
         <div class="col-12 col-xl-12">
@@ -106,52 +80,75 @@
                     <div class="card shadow border-0 text-center p-0">
                         <div class="profile-cover rounded-top" data-background="/static/assets/img/profile-cover.jpg"></div>
                         <div class="card-body pb-5">
-                            <img src="/static/assets/img/team/profile-picture-1.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
-                            <h4 class="fw-normal">
-                                {{ user.username }}
-                            </h4>
-                            <p class="text-gray mb-4">
-                                {{ user.email }}
-                            </p>
                             {% if user.parant %}
-                            <h4 class="h3">
-                                {{  user.parant.nom_parant }}
-                            </h4>
-							<p class="text-gray mb-4">
-                                total deja payer : {{ user.parant.get_total_paied }} <br>
-								total reste a payer : {{ user.parant.get_total_a_payer }} <br>
-                                Nombre de fils : {{ user.parant.get_fils_count }} <br>
-                            </p>
+                                <img src="{{ parent.father_avatar.url }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            {% else %}
+                                <img src="/static/assets/img/team/profile-picture-1.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            {% endif %}
+                            <h2 class="h5 mb-4">Information Générale</h2>
+                            {% if user.parant %}
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div>
+                                                <input class='form-control' type='text' readonly value="{{ parent.father_name}}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div>
+                                                <input class='form-control' type='text' readonly value="{{ parent.father_profession}}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div>
+                                                <input class='form-control' type='text' readonly value="{{ parent.father_phone }}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p class="text-gray mb-4 align-items-left">
+                                    total deja payer : {{ user.parant.get_total_paied }} <br>
+                                    total reste a payer : {{ user.parant.get_total_a_payer }} <br>
+                                    Nombre de fils : {{ user.parant.get_fils_count }} <br>
+                                </p>
                             {% endif %}
                         </div>
                       </div>
                 </div>
-				{% for  fils in parant.fils.all %}
-					<div class="col-12">
-						<div class="card card-body border-0 shadow mb-4">
-							<h2 class="h5 mb-4">{{ fils.prenom_fils}}</h2>
-							<div class="d-flex align-items-center">
-								<div class="me-3">
-									<!-- Avatar -->
-									<img class="rounded avatar-xl" src="/static/assets/img/team/profile-picture-3.jpg" alt="change avatar">
-								</div>
-								<div class="file-field">
-									<div class="d-flex justify-content-xl-center ms-xl-3">
-										<div class="d-flex">
-											<div class="d-md-block text-left">
-												<div class="fw-normal text-dark mb-1">{{  fils.gender }}</div>
-												<div class="fw-normal text-dark mb-1">{{  fils.niveau_etude }}</div>
-												<div class="text-gray small">{{  fils.date_of_birth | date }}</div>
-											</div>
-										</div>
-									</div>
-								</div>                                        
-							</div>
-						</div>
-					</div>
-				{% endfor %}
-                
-                
+                {% if user.parant %}
+                    {% for  fils in user.parant.fils.all %}
+                        <div class="col-3">
+                            <div class="card card-body border-0 shadow mb-4">
+                                <h2 class="h5 mb-4">{{ fils.student_firstname }} , {{ fils.student_name }}</h2>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <!-- Avatar -->
+                                        {% if fils.student_avatar %}
+                                            <img class="rounded avatar-xl" src="{{ fils.student_avatar.url }}" alt="change avatar">
+                                        {% else %}
+                                            <img class="rounded avatar-xl" src="/static/assets/img/team/profile-picture-3.jpg" alt="change avatar">
+                                        {% endif %}
+                                    </div>
+                                    <div class="file-field">
+                                        <div class="d-flex justify-content-xl-center ms-xl-3">
+                                            <div class="d-flex">
+                                                <div class="d-md-block text-left">
+                                                    <div class="fw-normal text-dark mb-1">{{ fils.student_gender }}</div>
+                                                    <div class="fw-normal text-dark mb-1">{{ fils.study_level }}</div>
+                                                    <div class="text-gray small">{{ fils.date_of_birth | date }}</div>
+                                                    <div class="text-gray small">{{ fils.place_of_birth }}</div>
+                                                    <div class="text-gray small">{{ fils.place_of_birth }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

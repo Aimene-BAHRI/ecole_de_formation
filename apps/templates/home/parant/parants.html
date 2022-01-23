@@ -15,20 +15,20 @@
 			<a href="{% url 'create_parant' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
 				Ajouter parant
 			</a>
-			
+
 		</div>
 	</div>
   <div class="table-settings mb-4">
-      
+
   </div>
-  
+
   <div class="card card-body border-0 shadow table-wrapper table-responsive">
       <table class="table table-hover">
           <thead>
               <tr>
                   <th class="border-gray-200">#</th>
-                  <th class="border-gray-200">Nom Parant</th>						
-                  <th class="border-gray-200">Prenom parant</th>
+                  <th class="border-gray-200">Nom d'utilisateur</th>
+                  <th class="border-gray-200">Profession</th>
                   <th class="border-gray-200">telephone</th>
                   <th class="border-gray-200">Email</th>
                   <th class="border-gray-200">Nbr Enfants</th>
@@ -45,10 +45,10 @@
                         </a>
                     </td>
                     <td>
-                        <span class="fw-normal">{{item.nom_parent}}</span>
+                        <span class="fw-normal">{{item.father_name}}</span>
                     </td>
-                    <td><span class="fw-normal">{{item.prenom_parent}}</span></td>                        
-                    <td><span class="fw-normal">{{item.telephone}}</span></td>
+                    <td><span class="fw-normal">{{item.father_profession}}</span></td>
+                    <td><span class="fw-normal">{{item.father_phone}}</span></td>
                     <td><span class="fw-bold">
                         {% if item.user.email %}
                             {{item.user.email}}
@@ -69,7 +69,7 @@
                     </td>
                 </tr>
                 <!-- Item -->
-              {% endfor %}                                
+              {% endfor %}
           </tbody>
       </table>
   </div>

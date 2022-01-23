@@ -24,6 +24,54 @@
 				</div>
 			</form>
 			<br />
+			{% if magazin.factures_magazin.all %}
+				<div class="card card-body border-0 shadow table-wrapper table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="border-gray-200">#</th>
+								<th class="border-gray-200">Magazin</th>						
+								<th class="border-gray-200">Operateur</th>						
+								<th class="border-gray-200">Type Operation</th>
+								<th class="border-gray-200">Totale</th>
+								<th class="border-gray-200">Date de creation</th>
+								<th class="border-gray-200">Etat de facture</th>
+								<th class="border-gray-200">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in  magazin.factures_magazin.all %}
+							<!-- Item -->
+							<tr>
+								<td><a href="#" class="fw-bold">{{item.id}}</a></td>
+								<td><span class="fw-normal">{{item.magazin}}</span></td>
+								<td><span class="fw-normal">{{item.operateur}}</span></td>
+								<td><span class="fw-normal {% if item.type_operation == 'entrée'  %} text-primary {% else %}text-warning{% endif %}">
+									{{item.type_operation}}
+									</span></td>
+								<td><span class="fw-normal">{{item.somme_operation}}</span></td>
+								<td><span class="fw-normal">{{item.date_de_creation}}</span></td>
+								<td><span class="fw-normal {% if item.status == 'validée et payée'  %} text-success {% else %}text-warning{% endif %}">
+									{{item.status}}
+									</span>
+								</td>
+								<td>
+									<a href="{% url 'facture' item.id %}" class="fw-bold text-success">
+										Voir facture
+									</a>
+									<br>
+									<a href="{% url 'delete_facture' item.id %}" class="fw-bold text-danger">
+										Supprimer facture
+									</a>
+								</td>
+							</tr>
+							<!-- Item -->
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
+			{% endif %}
         </div>
     </div>
 
