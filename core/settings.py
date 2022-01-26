@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
+ALLOWED_HOSTS = ['farabi-school.azurewebsites.net', 'localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 
 # Application definition
 
@@ -32,10 +32,6 @@ INSTALLED_APPS = [
     'apps.home',  # Enable the inner home (home)
     'easy_pdf',
     'crispy_forms',
-
-
-
-
     # 3rd party apps
     'notifications',
 ]
@@ -135,8 +131,8 @@ MEDIA_URL = '/media/'
 #############################################################
 
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = str(os.path.join(BASE_DIR, 'sent_emails'))
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_FILE_PATH = str(os.path.join(BASE_DIR, 'sent_emails'))
 
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
