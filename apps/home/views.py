@@ -13,16 +13,31 @@ from django.template import loader
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Sum
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 monthy = datetime.today().month
 yearly = datetime.today().year
-
+from dateutil.relativedelta import relativedelta
 from apps.authentication.forms import SignUpForm
 from .models import *
 from .forms import *
-@login_required(login_url="login")
+from notifications.signals import notify
+from notifications.models import Notification
+
 def index(request):
-    context = {'segment': 'index'}
+    activities = Activity.objects.all()
+    parants_count = Parent.objects.all().count()
+    students_count = Student.objects.all().count()
+    activities_count = Activity.objects.all().count()
+    CoursSuppls_count = Cours_particulier.objects.all().count()
+    context = {
+        'segment':'index',
+        'activites':activities,
+        'parants_count':parants_count,
+        'students_count':students_count,
+        'activities_count':activities_count,
+        'CoursSuppls_count':CoursSuppls_count
+
+        }
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
@@ -34,11 +49,14 @@ def staff_required(login_url=None):
 @staff_required(login_url="login")
 @login_required(login_url="login")
 def dashboard(request):
-
+    notifications = Notification.objects.filter(recipient = request.user)
     parants = Parent.objects.all()
     students = Student.objects.all()
     magazins = Magazin.objects.all()
     factures = Facture.objects.filter(
+        date_de_creation__month=monthy,
+        date_de_creation__year=yearly)
+    abonements = Abonement.objects.filter(
         date_de_creation__month=monthy,
         date_de_creation__year=yearly)
     monthly_gain_data = []
@@ -63,9 +81,11 @@ def dashboard(request):
         'magazins' : magazins,
         'magazins_count' : magazins.count(),
         'factures' : factures,
+        'abonements' : abonements,
         'factures_count' : factures.count(),
         'gain_totale' : total_gain_monthly,
-        'monthly_gain_data' : monthly_gain_data
+        'monthly_gain_data' : monthly_gain_data,
+        'notifications' : notifications
 
     }
 
@@ -150,15 +170,25 @@ def delete_parant(request, pk):
 
 @login_required(login_url="login")
 def profile(request):
-    user_profile_form = UserProfileForm(instance=request.user)
+    print(datetime.today() + relativedelta(day=31) - timedelta(days=3))
+    notifications = request.user.notifications.filter(
+        timestamp__lte = datetime.today()
+    )
+    unreaded = False
+    for notif in notifications:
+        if notif.unread:
+            unreaded = True
     try:
         parent = Parent.objects.get(user = request.user)
+        print('fix abonement')
     except Parent.DoesNotExist:
         parent = None
     context = {
         'segment' : 'profile',
         'user' : request.user,
         'parent' : parent,
+        'notifications' : notifications,
+        'unreaded' : unreaded
 
     }
     html_template = loader.get_template('home/profile.html')
@@ -166,7 +196,7 @@ def profile(request):
 
 @login_required(login_url='login')
 def mes_factures(request):
-    mes_factures = request.user.factures.all()
+    mes_factures = request.user.parant.abonements.all()
     context = {
         'segment' : 'mes_factures',
         'user' : request.user,
@@ -256,16 +286,23 @@ def export_pdf(request, pk):
 # FILS
 def create_student(request):
     student_form = StudentForm()
+    study_level_form = StudyLevelForm()
     if request.method == 'POST':
-        student_form = StudentForm(request.POST or None)
-        if student_form.is_valid() :
-            student_form.save()
+        student_form = StudentForm(request.POST or None, request.FILES)
+        study_level_form = StudyLevelForm(request.POST or None)
+        if student_form.is_valid() and study_level_form.is_valid():
+            student_object = student_form.save(commit=False)
+            study_object = study_level_form.save(commit=False)
+            study_object.save()
+            student_object.study_level = study_object
+            student_object.save()
             return redirect(reverse('students'))
         else:
             print(student_form.errors)
     context = {
         'segment' : 'create_magazin',
         'student_form' : student_form,
+        'study_level_form' : study_level_form
     }
     html_template = loader.get_template('home/student/create_student.html')
     return HttpResponse(html_template.render(context, request))
@@ -284,16 +321,23 @@ def students(request):
 @login_required(login_url='login')
 def student(request, pk):
     student = Student.objects.get(id= pk)
+    study_level_form = StudyLevelForm(request.POST or None, instance = student.study_level)
     student_form = StudentForm(request.POST or None, instance = student)
     if request.method == 'POST':
-        student_form = StudentForm(request.POST or None, instance=student)
-        if student_form.is_valid() :
-            student_form.save()
-        return redirect(reverse('students'))
+        student_form = StudentForm(request.POST or None, request.FILES, instance = student)
+        study_level_form = StudyLevelForm(request.POST or None, instance = student.study_level)
+        if student_form.is_valid() and study_level_form.is_valid():
+            student_object = student_form.save(commit=False)
+            study_object = study_level_form.save(commit=False)
+            study_object.save()
+            student_object.study_level = study_object
+            student_object.save()
+            return redirect(reverse('students'))
     context = {
         'segment': 'students',
         'student' : student,
-        'student_form' : student_form
+        'student_form' : student_form,
+        'study_level_form' : study_level_form
     }
 
     html_template = loader.get_template('home/student/student.html')
@@ -371,7 +415,7 @@ def create_facture(request):
     if request.method == 'POST':
         facture_form = FactureForm(request.POST or None)
         if facture_form.is_valid() :
-            facture_form.save()
+            facture_object = facture_form.save()
         return redirect(reverse('factures'))
 
     context = {
@@ -420,7 +464,105 @@ def delete_facture(request, pk):
         return redirect(reverse('factures'))
     return render(request,'home/Object_delete.html',{'object': object})
 
+# ABONEMENT
+import calendar
+@login_required(login_url='login')
+def create_abonement(request):
+    abonement_form = AbonementForm()
+    if request.method == 'POST':
+        abonement_form = AbonementForm(request.POST or None)
+        if abonement_form.is_valid() :
+            abonement_object = abonement_form.save(commit=False)
+            if abonement_object.reste_a_paier == 0:
+                pass
+            else:
+                abonement_object.status = "pas encore"
+                abonement_object.save()
+                if abonement_object.operateur.subscribed_plan == "mentuelle":
+                    verb='ceci est un rappel pour payer {} sur votre fracture {} du mois {} avant le {}'.format(
+                        abonement_object.reste_a_paier,
+                        abonement_object.id,
+                        calendar.month_name[int(abonement_object.date_de_creation.strftime("%m"))],
+                        abonement_object.date_de_creation + relativedelta(day=31)
+                    )
+                    timestamp = abonement_object.date_de_creation + relativedelta(day=31) - timedelta(days=3)
+                elif abonement_object.operateur.subscribed_plan == "trimestrielle":
+                    verb="ceci est un rappel pour payer {} sur votre fracture {} trimestrielle avant le {}".format(
+                        abonement_object.operateur.reste_a_paier,
+                        abonement_object.id,
+                        abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(months=3)
+                        )
+                    timestamp = abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(months=3) - timedelta(days=3)
+                elif abonement_object.operateur.subscribed_plan == "6_mois":
+                    verb="ceci est un rappel pour payer {} sur votre fracture {} demi-annuelle avant le {}".format(
+                        abonement_object.operateur.reste_a_paier,
+                        abonement_object.id,
+                        abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(months=6)
+                        )
+                    timestamp = abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(months=6) - timedelta(days=3)
+                elif abonement_object.operateur.subscribed_plan == "annuelle":
+                    verb="ceci est un rappel pour payer {} sur votre fracture {} annuelle avant le {}".format(
+                        abonement_object.operateur.reste_a_paier,
+                        abonement_object.id,
+                        abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(years=1)
+                        )
+                    timestamp = abonement_object.date_de_creation + relativedelta(day=31) + relativedelta(years=1) - timedelta(days=3)
 
+                notify.send(
+                        request.user,
+                        recipient=abonement_object.operateur.user,
+                        verb = verb,
+                        timestamp = timestamp
+                    )
+        else:
+            print(abonement_form.errors)
+        return redirect(reverse('abonements'))
+
+    context = {
+        'segment' : 'create_abonement',
+        'abonement_form' : abonement_form,
+    }
+
+    html_template = loader.get_template('home/abonement/create_abonement.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def abonements(request):
+    abonements = Abonement.objects.all()
+    context = {
+        'segment': 'abonements',
+        'abonements' : abonements
+    }
+
+    html_template = loader.get_template('home/abonement/abonements.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def abonement(request, pk):
+    abonement = get_object_or_404(Abonement, pk = pk)
+    abonement_form = AbonementForm(instance=abonement)
+    if request.method == 'POST':
+        abonement_form = AbonementForm(request.POST or None, instance=abonement)
+        if abonement_form.is_valid() :
+            abonement_form.save()
+        return redirect(reverse('abonements'))
+
+    context = {
+        'segment' : 'abonements',
+        'abonement_form' : abonement_form,
+        'abonement' : abonement
+    }
+
+    html_template = loader.get_template('home/abonement/abonement.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='login')
+def delete_abonement(request, pk):
+    object = Abonement.objects.get(id = pk)
+    if request.method == 'POST':
+        object.delete()
+        return redirect(reverse('abonements'))
+    return render(request,'home/Object_delete.html',{'object': object})
 
 # Matiere
 @login_required(login_url='login')

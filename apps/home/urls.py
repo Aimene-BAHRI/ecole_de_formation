@@ -36,6 +36,12 @@ urlpatterns = [
     path('factures/<pk>', views.facture, name="facture"),
     path('factures/delete/<pk>', views.delete_facture, name="delete_facture"),
 
+    # Abonement
+    path('abonements/', views.abonements, name="abonements"),
+    path('abonements/create', views.create_abonement, name="create_abonement"),
+    path('abonements/<pk>', views.abonement, name="abonement"),
+    path('abonements/delete/<pk>', views.delete_abonement, name="delete_abonement"),
+
     # Matiere
     path('matieres/', views.matieres, name="matieres"),
     path('matieres/create', views.create_matiere, name="create_matiere"),

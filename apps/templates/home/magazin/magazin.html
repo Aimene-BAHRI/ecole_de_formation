@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Detaile {% endblock %} 
+{% block title %} Detaile {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        
+
     </div>
     <div class="row">
         <div class="col-12 col-xl-12">
@@ -16,9 +16,9 @@
         </div>
         <div class="col-12 col-xl-12">
 			<form method="post" action="" class="mt-4">
-                                
+
 				{% csrf_token %}
-				{{ magazin_form }}								
+				{{ magazin_form }}
 				<div class="d-grid">
 					<button type="submit" name="register" class="btn btn-gray-800 mt-3">Modifier</button>
 				</div>
@@ -30,9 +30,8 @@
 						<thead>
 							<tr>
 								<th class="border-gray-200">#</th>
-								<th class="border-gray-200">Magazin</th>						
-								<th class="border-gray-200">Operateur</th>						
-								<th class="border-gray-200">Type Operation</th>
+								<th class="border-gray-200">Magazin</th>
+								<th class="border-gray-200">Operateur</th>
 								<th class="border-gray-200">Totale</th>
 								<th class="border-gray-200">Date de creation</th>
 								<th class="border-gray-200">Etat de facture</th>
@@ -46,9 +45,6 @@
 								<td><a href="#" class="fw-bold">{{item.id}}</a></td>
 								<td><span class="fw-normal">{{item.magazin}}</span></td>
 								<td><span class="fw-normal">{{item.operateur}}</span></td>
-								<td><span class="fw-normal {% if item.type_operation == 'entrée'  %} text-primary {% else %}text-warning{% endif %}">
-									{{item.type_operation}}
-									</span></td>
 								<td><span class="fw-normal">{{item.somme_operation}}</span></td>
 								<td><span class="fw-normal">{{item.date_de_creation}}</span></td>
 								<td><span class="fw-normal {% if item.status == 'validée et payée'  %} text-success {% else %}text-warning{% endif %}">

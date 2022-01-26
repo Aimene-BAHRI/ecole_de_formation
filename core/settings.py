@@ -32,6 +32,12 @@ INSTALLED_APPS = [
     'apps.home',  # Enable the inner home (home)
     'easy_pdf',
     'crispy_forms',
+
+
+
+
+    # 3rd party apps
+    'notifications',
 ]
 
 MIDDLEWARE = [
