@@ -24,12 +24,12 @@ It contains an Invoice and Stock managments and a dashboard visualisation page.
 
 
 ## TODO:
-- [ ] Switch from sqlite to poistgresql.
+- [ ] Switch from sqlite to postgresql.
 - [ ] Minimize the Media Files size.
 - [ ] ADD a CRM to controle the Test and Exams results.
 
 
-## Tools & languages:    
+## Tools & languages:
 * Visual Studio Code (IDE).
 * Python (Logic code).
 * Django template language (DTL) (UI Library).
