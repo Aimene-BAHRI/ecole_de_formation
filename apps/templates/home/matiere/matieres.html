@@ -28,7 +28,6 @@
               <tr>
                   <th class="border-gray-200">#</th>
                   <th class="border-gray-200">Nom de la matires</th>
-                  <th class="border-gray-200">prix de la matiere</th>
                   <th class="border-gray-200">Action</th>
               </tr>
           </thead>
@@ -44,7 +43,6 @@
                     <td>
                         <span class="fw-normal">{{item.nom_matiere}}</span>
                     </td>
-                    <td><span class="fw-normal">{{item.prix_matiere}}</span></td>
 
                     <td>
 						<a href="{% url 'matiere' item.id %}" class="fw-bold text-success">

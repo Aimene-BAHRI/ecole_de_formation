@@ -126,12 +126,14 @@
 				<tr>
 					<th class="text-left">Description</th>
 					<th class="text-right">La somme</th>
+					<th class="text-right">Reste a paier</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td class="text-left">{{ invoice.description }}</td>
-					<td class="text-right">{{ invoice.somme_operation }} DZD</td>
+					<td class="text-right">{{ invoice.somme_operation }}</td>
+					<td class="text-right">{{ invoice.reste_a_paier }}</td>
 					<td class="text-right">{{ invoice.status }}</td>
 				</tr>
 			</tbody>
@@ -140,7 +142,7 @@
 		<table class="bottom-20">
 			<tr>
 				<td><strong>Total</strong></td>
-				<td class="text-right"><strong>{{ invoice.somme_operation }} DZD</strong></td>
+				<td class="text-right"><strong>{{ invoice.balance }} DZD</strong></td>
 			</tr>
 		</table>
 

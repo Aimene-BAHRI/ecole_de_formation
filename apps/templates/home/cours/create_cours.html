@@ -34,6 +34,7 @@
                         <form method="post" action="" class="" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ cours_form }}
+                            {{ study_level_form }}
                             <div class="d-grid">
                                 <button type="submit" name="register" class="btn btn-gray-800 mt-3">Création</button>
                             </div>

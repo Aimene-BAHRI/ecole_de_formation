@@ -1,88 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- Primary Meta Tags -->
-<title>
-    Ecole de Formation | {% block title %} Accueil {% endblock title %}
-</title>
+    <!-- Primary Meta Tags -->
+    <title>
+        Ecole de Formation | {% block title %} Accueil {% endblock title %}
+    </title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Themesberg">
-<meta name="description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
-<meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
-<link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Themesberg">
+    <meta name="description"
+        content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+    <meta name="keywords"
+        content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
+    <link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/img/logo_picture.jpg">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://demo.themesberg.com/volt-pro">
-<meta property="og:title" content="Volt - Free Bootstrap 5 Admin Dashboard">
-<meta property="og:description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
-<meta property="og:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+    <!-- Sweet Alert -->
+    <link type="text/css" href="/static/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Notyf -->
+    <link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
-<meta property="twitter:title" content="Volt - Free Bootstrap 5 Admin Dashboard">
-<meta property="twitter:description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
-<meta property="twitter:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+    <!-- Volt CSS -->
+    <link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="120x120" href="/static/assets/img/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/static/assets/img/favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/favicon/favicon-16x16.png">
-<link rel="manifest" href="/static/assets/img/favicon/site.webmanifest">
-<link rel="mask-icon" href="/static/assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
+    <!-- FA Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<!-- Sweet Alert -->
-<link type="text/css" href="/static/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- DATEPICKER CDN-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
+        integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
 
-<!-- Notyf -->
-<link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
-
-<!-- Volt CSS -->
-<link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
-
-<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+    <!-- Specific Page JS goes HERE  -->
+    {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
+
 <body>
 
     <header class="header-global">
-        <nav id="navbar-main" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary pt-4 navbar-dark">
+        <nav aria-label="Primary navigation"
+            class="navbar navbar-main navbar-expand-lg navbar-theme-primary pt-4 navbar-dark" id="navbar-main">
             <div class="container position-relative">
-                <div class="navbar-collapse collapse me-auto" id="navbar_global">
+                <div class="navbar-collapse mr-auto collapse" id="navbar_global" style="">
                     <div class="navbar-collapse-header">
                         <div class="row">
                             <div class="col-6 collapse-brand">
-                                <a href="/">
-                                    <img src="/static/assets/img/brand/light.svg" alt="Volt logo">
-                                </a>
+                                <a href="{% url 'home' %}"><img alt="Volt logo"
+                                        src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/img/brand/light.svg"></a>
                             </div>
                             <div class="col-6 collapse-close">
-                                <a href="#navbar_global" class="fas fa-times" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" title="close" aria-label="Toggle navigation"></a>
+                                <a aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation"
+                                    class="fas fa-times collapsed" data-target="#navbar_global" data-toggle="collapse"
+                                    href="#navbar_global" title="close"></a>
                             </div>
                         </div>
                     </div>
                     <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                         {% if user.is_authenticated %}
-                            {% if user.is_superuser %}
-                                <li class="nav-item me-2">
-                                    <a href="{% url 'dashboard' %}" class="nav-link">Tableau de bord</a>
-                                </li>
-                                <li class="nav-item me-2">
-                                    <a href="/admin" class="nav-link">Administration</a>
-                                </li>
-                            {% endif %}
-                            <li class="nav-item me-2">
-                                <a href="{% url 'profile' %}" class="nav-link">Mon Profile</a>
-                            </li>
-                            <li class="nav-item me-2">
-                                <a href="{% url 'logout' %}" class="nav-link">Deconnexion</a>
-                            </li>
+                        {% if user.is_superuser %}
+                        <li class="nav-item me-2">
+                            <a href="{% url 'dashboard' %}" class="nav-link">Tableau de bord</a>
+                        </li>
+                        {% comment %} <li class="nav-item me-2">
+                            <a href="/admin" class="nav-link">Administration</a>
+                        </li> {% endcomment %}
+                        {% endif %}
+                        <li class="nav-item me-2">
+                            <a href="{% url 'profile' %}" class="nav-link">Mon Profile</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a href="{% url 'logout' %}" class="nav-link">Deconnexion</a>
+                        </li>
                         {% else %}
                         <li class="nav-item me-2">
                             <a href="{% url 'login' %}" class="nav-link">Connexion</a>
@@ -90,15 +83,13 @@
                         {% endif %}
                     </ul>
                 </div>
-                {% comment %} <div class="d-flex align-items-center ms-auto">
-                    <a href="https://appseed.us/admin-dashboards/django-dashboard-volt"
-                       target="_blank"
-                       class="btn btn-outline-white d-inline-flex align-items-center me-md-3">
-                        <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd"></path></svg>
-                        Download
-                    </a>
-                </div> {% endcomment %}
-            </div>
+                <div class="d-flex align-items-center ml-auto">
+                    <button aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation"
+                        class="navbar-toggler ml-2 collapsed" data-target="#navbar_global" data-toggle="collapse"
+                        type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
         </nav>
     </header>
 
@@ -109,17 +100,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
-                        
                         <h1 class="fw-bolder">Elfarabi-School</h1>
                         <h2 class="lead fw-normal text-muted mb-5">
                             {% comment %} Lorem description text {% endcomment %}
                         </h2>
                         <!-- Button Modal -->
-                        
+
                         <div class="d-flex justify-content-center flex-column mb-6 mb-lg-5">
                             <a href="{% url 'home' %}" target="_blank">
-                                <img src="/static/assets/img/themesberg.svg" class="d-block mx-auto mb-3" height="25" width="25" alt="Themesberg Logo">
-                                
+                                <img src="/static/assets/img/themesberg.svg" class="d-block mx-auto mb-3" height="25"
+                                    width="25" alt="Themesberg Logo">
+
                             </a>
                         </div>
                     </div>
@@ -129,28 +120,49 @@
                 <div class="row justify-content-center mb-5 mb-lg-6">
                     <div class="col-6 col-md-3 text-center mb-4">
                         <div class="icon icon-shape bg-white shadow-lg rounded mb-4">
-                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path></svg>
+                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z">
+                                </path>
+                            </svg>
                         </div>
                         <h3 class="fw-bolder">{{parants_count}}+</h3>
                         <p class="text-gray">Utilisateurs</p>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4">
                         <div class="icon icon-shape bg-white shadow-lg rounded mb-4">
-                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"></path></svg>
+
+                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
                         </div>
                         <h3 class="fw-bolder">{{students_count}}+</h3>
                         <p class="text-gray">Etudiants</p>
                     </div>
                     <div class="col-6 col-md-3 text-center">
                         <div class="icon icon-shape bg-white shadow-lg rounded mb-4">
-                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path></svg>
+                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z">
+                                </path>
+                            </svg>
                         </div>
                         <h3 class="fw-bolder">{{activities_count}}+</h3>
                         <p class="text-gray">Activités</p>
                     </div>
                     <div class="col-6 col-md-3 text-center">
                         <div class="icon icon-shape bg-white shadow-lg rounded mb-4">
-                            <svg class="icon icon-md text-secondary" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="js-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM243.8 381.4c0 43.6-25.6 63.5-62.9 63.5-33.7 0-53.2-17.4-63.2-38.5l34.3-20.7c6.6 11.7 12.6 21.6 27.1 21.6 13.8 0 22.6-5.4 22.6-26.5V237.7h42.1v143.7zm99.6 63.5c-39.1 0-64.4-18.6-76.7-43l34.3-19.8c9 14.7 20.8 25.6 41.5 25.6 17.4 0 28.6-8.7 28.6-20.8 0-14.4-11.4-19.5-30.7-28l-10.5-4.5c-30.4-12.9-50.5-29.2-50.5-63.5 0-31.6 24.1-55.6 61.6-55.6 26.8 0 46 9.3 59.8 33.7L368 290c-7.2-12.9-15-18-27.1-18-12.3 0-20.1 7.8-20.1 18 0 12.6 7.8 17.7 25.9 25.6l10.5 4.5c35.8 15.3 55.9 31 55.9 66.2 0 37.8-29.8 58.6-69.7 58.6z"></path></svg>
+                            <svg class="icon icon-md text-secondary" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z">
+                                </path>
+                            </svg>
                         </div>
                         <h3 class="fw-bolder">{{CoursSuppls_count}}+</h3>
                         <p class="text-gray">Cours Suppls</p>
@@ -166,18 +178,19 @@
                 <div class="row justify-content-center mb-5 mb-lg-6">
                     <div class="col-12 text-center">
                         <h2 class="h1 px-lg-5">Nos Activités</h2>
-                        {% comment %} <p class="lead px-lg-8">You get all Bootstrap components fully customized. Besides, you receive numerous plugins out of the box and ready to use.</p> {% endcomment %}
+                        {% comment %} <p class="lead px-lg-8">You get all Bootstrap components fully customized.
+                            Besides, you receive numerous plugins out of the box and ready to use.</p> {% endcomment %}
                     </div>
                 </div>
                 <div class="row">
                     {% for activity in activities %}
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <div class="card bg-white shadow-soft text-secondary rounded mb-4">
-                                <div class="px-3 px-lg-4 py-5 text-center">
-                                    <h5 class="fw-bold text-secondary">{{ activity.activity_name}}</h5>
-                                </div>
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card bg-white shadow-soft text-secondary rounded mb-4">
+                            <div class="px-3 px-lg-4 py-5 text-center">
+                                <h5 class="fw-bold text-secondary">{{ activity.activity_name}}</h5>
                             </div>
                         </div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -190,51 +203,79 @@
             <div class="row">
                 <div class="col-md-6">
                     {% comment %} ADD LOGO HERE {% endcomment %}
-                    {% comment %} <img class="navbar-brand-dark mb-4" height="35" src="/static/assets/img/brand/light.svg" alt="Logo light"> {% endcomment %}
+                    {% comment %} <img class="navbar-brand-dark mb-4" height="35"
+                        src="/static/assets/img/brand/light.svg" alt="Logo light"> {% endcomment %}
                     <p>
                         Ajouter une description .......
                     </p>
                     <ul class="social-buttons mb-5 mb-lg-0">
                         <li>
-                            <a href="https://twitter.com/themesberg" aria-label="twitter social link" class="icon-white me-2">
+                            <a href="https://twitter.com/themesberg" aria-label="twitter social link"
+                                class="icon-white me-2">
                                 <span class="fab fa-twitter"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.facebook.com/themesberg/" class="icon-white me-2" aria-label="facebook social link">
+                            <a href="https://www.facebook.com/themesberg/" class="icon-white me-2"
+                                aria-label="facebook social link">
                                 <span class="fab fa-facebook"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/themesberg" aria-label="github social link" class="icon-white me-2">
+                            <a href="https://github.com/themesberg" aria-label="github social link"
+                                class="icon-white me-2">
                                 <span class="fab fa-github"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://dribbble.com/themesberg" class="icon-white" aria-label="dribbble social link" >
+                            <a href="https://dribbble.com/themesberg" class="icon-white"
+                                aria-label="dribbble social link">
                                 <span class="fab fa-dribbble"></span>
                             </a>
                         </li>
                     </ul>
                 </div>
-               
             </div>
             <hr class="bg-gray-700 my-5">
             <div class="row">
                 <div class="col mb-md-0">
                     <a href="https://themesberg.com" target="_blank" class="d-flex justify-content-center">
-                        <img src="/static/assets/img/themesberg-logo-alt.svg" height="35" class="mb-4" alt="Themesberg Logo">
+                        <img src="/static/assets/img/themesberg-logo-alt.svg" height="35" class="mb-4"
+                            alt="Themesberg Logo">
                     </a>
-                <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
-                    <p class="fw-normal font-small mb-0">
-                        &copy; Themesberg 2019-<span class="current-year">2020</span> - coded by <a target="_blank" href="https://appseed.us">AppSeed</a>.</p>
+                    <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
+                        <p class="fw-normal font-small mb-0">
+                            &copy; Themesberg 2019-<span class="current-year">2020</span> - coded by <a target="_blank"
+                                href="https://appseed.us">AppSeed</a>.</p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    {% include 'includes/scripts.html' %}
-
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/popper.js/dist/umd/popper.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/bootstrap/dist/js/bootstrap.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/nouislider/distribute/nouislider.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/jarallax/dist/jarallax.min.js"></script>
+    <div style="position: fixed; top: -9999px; left: 0px; height: 100vh; width: 0px;"></div>
+    <script
+        src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/countup.js/dist/countUp.umd.js"></script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/notyf/notyf.min.js"></script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/chartist/dist/chartist.min.js"></script>
+    <script
+        src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/vanillajs-datepicker/dist/js/datepicker.min.js">
+    </script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/vendor/simplebar/dist/simplebar.min.js"></script>
+    <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://appsrv1-147a1.kxcdn.com/volt-dashboard/js/volt.min.js"></script>
 </body>
+
 </html>

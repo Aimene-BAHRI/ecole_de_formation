@@ -31,7 +31,7 @@ def index(request):
     CoursSuppls_count = Cours_particulier.objects.all().count()
     context = {
         'segment':'index',
-        'activites':activities,
+        'activities':activities,
         'parants_count':parants_count,
         'students_count':students_count,
         'activities_count':activities_count,
@@ -53,21 +53,31 @@ def dashboard(request):
     parants = Parent.objects.all()
     students = Student.objects.all()
     magazins = Magazin.objects.all()
+    courses = Cours_particulier.objects.all()
+    particular_courses = Cours_particulier.objects.filter(
+        date_de_creation__month=monthy,
+        date_de_creation__year=yearly)
     factures = Facture.objects.filter(
         date_de_creation__month=monthy,
         date_de_creation__year=yearly)
     abonements = Abonement.objects.filter(
         date_de_creation__month=monthy,
         date_de_creation__year=yearly)
-    monthly_gain_data = []
+    # Get total gain of this Month
     total_gain_monthly = 0
     for magazin in magazins:
         total_gain_monthly += magazin.get_caisse()
+    for particular_course in particular_courses:
+        total_gain_monthly = total_gain_monthly + particular_course.prix_matiere
 
+    # Get total gain of All Months
+    monthly_gain_data = []
     for current_month in range(1,13):
         gain_totale = 0
         for magazin in magazins:
             gain_totale = gain_totale + magazin.get_caisse(current_month)
+        for particular_course in particular_courses:
+            gain_totale = gain_totale + particular_course.get_caisse(yearly, current_month)
         monthly_gain_data.append(float(gain_totale))
 
     print(monthly_gain_data)
@@ -85,7 +95,8 @@ def dashboard(request):
         'factures_count' : factures.count(),
         'gain_totale' : total_gain_monthly,
         'monthly_gain_data' : monthly_gain_data,
-        'notifications' : notifications
+        'notifications' : notifications,
+        'courses' : courses
 
     }
 
@@ -268,21 +279,33 @@ from django.template.loader import get_template
 from easy_pdf.rendering import render_to_pdf_response
 
 
+today = datetime.today()
 
 @login_required(login_url="/login/")
 def export_pdf(request, pk):
     if request.user.is_superuser:
         print('hahaha admin')
         facture = Facture.objects.get(pk = pk)
-        return render_to_pdf_response(request,'home/renderdetail.html', {'invoice':facture})
+        return render_to_pdf_response(request,'home/renderdetail.html', {'invoice':facture,'today':today})
     else:
         try:
             facture = Facture.objects.get(pk = pk, operateur = request.user)
-            return render_to_pdf_response(request,'home/renderdetail.html', {'invoice':facture})
+            return render_to_pdf_response(request,'home/renderdetail.html', {'invoice':facture,'today':today})
         except Facture.DoesNotExist:
             return redirect(reverse('mes_factures'))
 
-
+@login_required(login_url="/login/")
+def export_pdf_abonement(request, pk):
+    if request.user.is_superuser:
+        print('hahaha admin')
+        facture = Abonement.objects.get(pk = pk)
+        return render_to_pdf_response(request,'home/render_abonement.html', {'invoice':facture,'today':today})
+    else:
+        try:
+            facture = Abonement.objects.get(pk = pk, operateur = request.user)
+            return render_to_pdf_response(request,'home/render_abonement.html', {'invoice':facture,'today':today})
+        except Abonement.DoesNotExist:
+            return redirect(reverse('mes_abonements'))
 # FILS
 def create_student(request):
     student_form = StudentForm()
@@ -323,6 +346,7 @@ def student(request, pk):
     student = Student.objects.get(id= pk)
     study_level_form = StudyLevelForm(request.POST or None, instance = student.study_level)
     student_form = StudentForm(request.POST or None, instance = student)
+    print(student_form)
     if request.method == 'POST':
         student_form = StudentForm(request.POST or None, request.FILES, instance = student)
         study_level_form = StudyLevelForm(request.POST or None, instance = student.study_level)
@@ -624,15 +648,25 @@ def delete_matiere(request, pk):
 @login_required(login_url='login')
 def create_cours(request):
     cours_form = Cours_particulierForm()
+    study_level_form = StudyLevelForm()
     if request.method == 'POST':
         cours_form = Cours_particulierForm(request.POST or None)
-        if cours_form.is_valid() :
-            cours_form.save()
-        return redirect(reverse('courses'))
+        study_level_form = StudyLevelForm(request.POST or None)
+        if cours_form.is_valid() and study_level_form.is_valid():
+            cours = cours_form.save(commit=False)
+            study_level = study_level_form.save(commit=False)
+            study_level.save()
+            cours.study_level = study_level
+            cours.save()
+            return redirect(reverse('courses'))
+        else:
+            print(cours_form.errors)
+            print(study_level_form.errors)
 
     context = {
         'segment' : 'create_cours',
         'cours_form' : cours_form,
+        'study_level_form' : study_level_form
     }
 
     html_template = loader.get_template('home/cours/create_cours.html')
@@ -653,16 +687,26 @@ def courses(request):
 def cours(request, pk):
     cours = get_object_or_404(Cours_particulier, pk = pk)
     cours_form = Cours_particulierForm(instance=cours)
+    study_level_form = StudyLevelForm(instance = cours.study_level)
     if request.method == 'POST':
         cours_form = Cours_particulierForm(request.POST or None, instance=cours)
-        if cours_form.is_valid() :
-            cours_form.save()
-        return redirect(reverse('courses'))
+        study_level_form = StudyLevelForm(request.POST or None, instance = cours.study_level)
+        if cours_form.is_valid() and study_level_form.is_valid():
+            cours = cours_form.save(commit=False)
+            study_level = study_level_form.save(commit=False)
+            study_level.save()
+            cours.study_level = study_level
+            cours.save()
+            return redirect(reverse('courses'))
+        else:
+            print(cours_form.errors)
+            print(study_level_form.errors)
 
     context = {
         'segment' : 'courses',
         'cours_form' : cours_form,
-        'cours' : cours
+        'cours' : cours,
+        'study_level_form': study_level_form
     }
 
     html_template = loader.get_template('home/cours/cours.html')

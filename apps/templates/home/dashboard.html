@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Etudiant</h2>
+                                <h2 class="h6 text-gray-400 mb-0">Etudiants</h2>
                                 <h3 class="fw-extrabold mb-2">{{ students_count }}</h3>
                             </div>
                             {% comment %} <small class="text-gray-500">
@@ -222,6 +222,68 @@
                                             <td class="fw-bolder {% if facture.status == 'validée et payée'  %} text-success {% else %} text-warning{% endif %}">
                                                 {{ facture.status }}
                                             </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card border-0 shadow">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="fs-5 fw-bold mb-0">Les Cours particuliers</h2>
+                                </div>
+                                <div class="col text-end">
+                                    <a href="{% url 'courses' %}" class="btn btn-sm btn-primary">Voir Tous</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th class="border-gray-200">#</th>
+                                    <th class="border-gray-200">Nom de la matire</th>
+                                    <th class="border-gray-200">prix de la matire</th>
+                                    <th class="border-gray-200">Classe</th>
+                                    <th class="border-gray-200">Etudiant</th>
+                                    <th class="border-gray-200">Date de creation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in courses %}
+                                        <tr>
+                                            <th class="text-gray-900" scope="row">
+                                                {{ item.id }}
+                                            </th>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{ item.matiere }}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{ item.prix_matiere }}
+                                            </td>
+
+                                            <td class="fw-bolder text-gray-500">
+                                                {{ item.cours_type }}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{item.nom_etudiant}} _ {{item.prenom_etudiant}}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{ item.date_de_creation }}
+                                            </td>
+                                            
                                         </tr>
                                     {% endfor %}
                                 </tbody>

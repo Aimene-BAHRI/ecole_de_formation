@@ -27,10 +27,10 @@
           <thead>
               <tr>
                   <th class="border-gray-200">#</th>
-                  <th class="border-gray-200">Nom de la matires</th>
+                  <th class="border-gray-200">Nom de la matire</th>
+                  <th class="border-gray-200">prix de la matire</th>
                   <th class="border-gray-200">Classe</th>
-                  <th class="border-gray-200">Nom de l'etudiant</th>
-                  <th class="border-gray-200">Prenom de l'etudiant</th>
+                  <th class="border-gray-200">Etudiant</th>
                   <th class="border-gray-200">Action</th>
               </tr>
           </thead>
@@ -44,11 +44,11 @@
                         </a>
                     </td>
                     <td>
-                        <span class="fw-normal">{{item.nom_matiere}}</span>
+                        <span class="fw-normal">{{item.matiere}}</span>
                     </td>
-                    <td><span class="fw-normal">{{item.categorie}}</span></td>
-                    <td><span class="fw-normal">{{item.nom_etudiant}}</span></td>
-                    <td><span class="fw-normal">{{item.prenom_etudiant}}</span></td>
+                    <td><span class="fw-normal">{{item.prix_matiere}}</span></td>
+                    <td><span class="fw-normal">{{item.cours_type }}</span></td>
+                    <td><span class="fw-normal">{{item.nom_etudiant}} _ {{item.prenom_etudiant}}</span></td>
 
                     <td>
 						<a href="{% url 'cours' item.id %}" class="fw-bold text-success">

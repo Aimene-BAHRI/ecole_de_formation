@@ -41,7 +41,7 @@ class Parent(models.Model):
 		factures = Abonement.objects.filter(operateur = self)
 		total = 0
 		for facture in factures:
-			total = total + facture.balance()
+			total = total + float(facture.balance())
 		return total
 
 	def get_total_a_payer(self):
@@ -79,10 +79,17 @@ class StudyLevel(models.Model):
 		("classe 5", "Classe 5"),
 	)
 	DEVISION_CHOICES = (
-		("Tronc_commun_science_et_technologie" , "Tronc commun science et technologie"),
-		("sciences expérimentales" , "sciences expérimentales"),
-		("Mathématiques" , "Mathématiques"),
-		("Athlète technique" , "Athlète technique")
+		("tronc_commun_science_et_technologie" , "Tronc commun science et technologie"),
+		("laitre" , "Laitre"),
+		("science" , "Science"),
+		("mathélemes" , "Mathélemes"),
+		("technique math(mechanique)" , "Technique math(mechanique)"),
+		("technique math(electricité)" , "Technique math(electricité)"),
+		("technique math(génie civil)" , "Technique math(génie civil)"),
+		("gestion" , "Gestion"),
+		("philosophie" , "Philosophie"),
+		("langue espagnole" , "Langue Espagnole"),
+		("langue allemande" , "Langue Allemande")
 	)
 	year = models.CharField("l'année scolaire",max_length=20, choices=Year_CHOICES, default="1ere année")
 	level = models.CharField("niveau d'etude scolaire",max_length=20, choices=NIVEAU_CHOICES, default="prescolaire")
@@ -116,7 +123,7 @@ class Student(models.Model):
 	pedagogic_inscription_date = models.DateField("date d'inscription pedagogique",default=timezone.now)
 	scolar_year = models.CharField("année scolaire",max_length=20, default="21/22")
 	last_school_attended = models.CharField("dernière école fréquentée", max_length=400,blank=True, null=True)
-	activities = models.ForeignKey("Activity", on_delete=models.CASCADE, related_name='fils',blank=True, null=True)
+	activities = models.ManyToManyField("Activity", related_name='fils',blank=True, null=True)
 
 	def __str__(self):
 		return '{}, {}'.format(self.student_firstname, self.parent.father_name)
@@ -137,11 +144,10 @@ class Magazin(models.Model):
 		factures = Abonement.objects.filter(
 			date_de_creation__month=month,
 			date_de_creation__year=year,
-			magazin = self,
-			status = 'validée et payée')
+			magazin = self)
 		total = 0
 		for facture in factures:
-			total = total + facture.somme_operation
+			total = total + facture.balance()
 		return total
 
 	def get_total_sortant(self, year, month):
@@ -149,10 +155,9 @@ class Magazin(models.Model):
 		factures = Facture.objects.filter(
 			date_de_creation__month=month,
 			date_de_creation__year=year,
-			magazin = self,
-			status = 'validée et payée')
+			magazin = self,)
 		for facture in factures:
-			total = total + facture.somme_operation
+			total = total + facture.balance()
 		return total
 
 	def get_caisse(self, month = monthy):
@@ -169,7 +174,6 @@ class Facture(models.Model):
 	magazin = models.ForeignKey(Magazin, on_delete=models.CASCADE, related_name="factures_magazin")
 	operateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name="factures")
 	somme_operation = models.DecimalField(max_digits=100, decimal_places=2)
-	reste_a_paier = models.DecimalField(max_digits=100, decimal_places=2, default=0)
 	description = models.CharField(max_length=200)
 	date_de_creation = models.DateField(default=timezone.now)
 	updated = models.DateField(auto_now_add=False, auto_now=True)
@@ -183,44 +187,53 @@ class Facture(models.Model):
 		return self.operateur.username + '|_-_|' + '___' + str(self.date_de_creation)
 
 	def balance(self):
-		return self.somme_operation - self.reste_a_paier
-
-
+		return self.somme_operation
 
 	def get_absolute_url(self):
 		return reverse("detail de la facture", kwargs={"pk": self.pk})
 
-
-
-class Classe(models.Model):
-	nom_classe = models.CharField(max_length=200)
-	prix_categorie = models.DecimalField(max_digits=10, decimal_places=2)
-
-	def __str__(self):
-		return self.nom_classe
-
 class Matiere(models.Model):
 	nom_matiere = models.CharField(max_length=300, default='')
-	prix_matiere = models.DecimalField(max_digits=8, decimal_places=2)
 
 	def __str__(self):
 		return self.nom_matiere
 
 class Cours_particulier(models.Model):
-	matiere = models.ForeignKey("Matiere", on_delete=models.CASCADE, verbose_name="matiere", related_name="courses")
-	classe = models.ForeignKey("Classe", on_delete=models.CASCADE, verbose_name="classe", related_name="courses", null=True, blank=True)
+	Type_CHOICES = (
+		('individuelle', 'Individuelle'),
+		('groupe', 'Groupe'),
+
+	)
 	nom_etudiant = models.CharField(max_length=200)
 	prenom_etudiant = models.CharField(max_length=200)
-
+	matiere = models.ForeignKey("Matiere", on_delete=models.CASCADE, verbose_name="matiere", related_name="courses")
+	prix_matiere = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+	study_level = models.OneToOneField(StudyLevel, on_delete=models.CASCADE, related_name='particular_courses', null=True, blank=True)
+	cours_type = models.CharField("le type du cours",max_length=20, choices=Type_CHOICES, default="individuelle")
+	date_de_creation = models.DateField(default=timezone.now)
+	
 	def get_full_name(self):
 		return self.nom_etudiant + self.prenom_etudiant
 
 	def __str__(self):
 		return "etudiant {} ,matiere{}".format(self.get_full_name(),self.matiere)
+	
+	def get_caisse(self, year = yearly, month = monthy):
+		courses = Cours_particulier.objects.filter(
+			date_de_creation__month=month,
+			date_de_creation__year=year,
+		)
+		total = 0
+		for course in courses:
+			total = total + course.prix_matiere
+		return total
 
 class Activity(models.Model):
 	activity_name = models.CharField("nom de l'activité", max_length=200)
 	activity_price = models.DecimalField(max_digits=8, decimal_places=2)
+
+	def __str__(self):
+		return "{} ({})".format(self.activity_name, str(self.activity_price))
 
 class Abonement(models.Model):
 	magazin = models.ForeignKey(Magazin, on_delete=models.CASCADE, related_name="abonements_magazin")
@@ -241,8 +254,6 @@ class Abonement(models.Model):
 
 	def balance(self):
 		return self.somme_operation - self.reste_a_paier
-
-
 
 	def get_absolute_url(self):
 		return reverse("detail de la facture", kwargs={"pk": self.pk})

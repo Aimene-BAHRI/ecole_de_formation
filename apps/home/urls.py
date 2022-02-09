@@ -59,6 +59,7 @@ urlpatterns = [
     path('mes_factures/', views.mes_factures, name='mes_factures'),
     path('mes_factures/<pk>', views.facture_detail, name='facture_detail'),
     path('export_pdf/<pk>', views.export_pdf, name='export'),
+    path('export_pdf_abonement/<pk>', views.export_pdf_abonement, name='export_pdf_abonement'),
     path('mes_enfants/', views.mes_enfants, name='mes_enfants'),
 
     # Activity

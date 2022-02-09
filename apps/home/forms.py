@@ -1,8 +1,9 @@
+from random import choices
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from apps.home.models import Activity, Classe, Cours_particulier, Abonement, Facture, Student, Magazin, Matiere, Parent, StudyLevel, Villa
+from apps.home.models import Activity, Cours_particulier, Abonement, Facture, Student, Magazin, Matiere, Parent, StudyLevel, Villa
 
 class UserProfileForm(forms.ModelForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Pseudo","class": "form-control"}))
@@ -55,7 +56,7 @@ class ParentForm(forms.ModelForm):
 		choices= Plan_CHOICES,
 		label="le plan d'abonement",
 		widget=forms.Select(attrs={
-		'class': 'form-control'}))
+		'class': 'form-control form-select'}))
 	class Meta:
 		model = Parent
 		fields = (
@@ -72,10 +73,9 @@ class ParentForm(forms.ModelForm):
 class StudyLevelForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(StudyLevelForm, self).__init__(*args, **kwargs)
-
 		# you can iterate all fields here
 		for fname, f in self.fields.items():
-			f.widget.attrs['class'] = 'form-control'
+			f.widget.attrs['class'] = 'form-control form-select'
 	class Meta:
 		model = StudyLevel
 		fields = '__all__'
@@ -83,19 +83,62 @@ class StudyLevelForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)
-		# you can iterate all fields here
-		for fname, f in self.fields.items():
-			f.widget.attrs['class'] = 'form-control'
+		self.fields['student_firstname'].widget.attrs['class'] = 'form-control'
+		self.fields['student_name'].widget.attrs['class'] = 'form-control'
+		self.fields['place_of_birth'].widget.attrs['class'] = 'form-control'
+		self.fields['address'].widget.attrs['class'] = 'form-control'
+		self.fields['allergic'].widget.attrs['class'] = 'form-control'
+		self.fields['chronical_sickness'].widget.attrs['class'] = 'form-control'
+		self.fields['particular_handicap'].widget.attrs['class'] = 'form-control'
+		self.fields['student_gender'].widget.attrs['class'] = 'form-control form-select'
+		self.fields['student_avatar'].widget.attrs['class'] = 'form-control form-file-input'
+		self.fields['scolar_year'].widget.attrs['class'] = 'form-control'
+		self.fields['last_school_attended'].widget.attrs['class'] = 'form-control'
 
+	parent = forms.ModelChoiceField(
+		widget=forms.Select(attrs={
+			'class' : "form-control form-select",
+		}), queryset=Parent.objects.all()
+	)
 	date_of_birth = forms.DateField(
-					  label="La date de naissance de l'eleve",
-					input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
-					widget=forms.DateInput(attrs={
-						'class': 'form-control',
-						'id' : 'birthday',
-						'type': 'text',
-						'placeholder':"",
-						'data-datepicker':""}))
+		label="La date de naissance de l'eleve",
+		input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+		widget=forms.DateInput(attrs={
+			'class': 'form-control',
+			'id' : 'birthday',
+			'type': 'text',
+			'placeholder':"",
+			'data-datepicker':""})
+	)
+	scolar_inscription_date = forms.DateField(
+		label="La date d'inscription scolaire",
+		input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+		widget=forms.DateInput(attrs={
+			'class': 'form-control',
+			'id' : 'birthday',
+			'type': 'text',
+			'placeholder':"",
+			'data-datepicker':""})
+	)
+
+	pedagogic_inscription_date = forms.DateField(
+		label="La date d'inscription pédagogique",
+		input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'],
+		widget=forms.DateInput(attrs={
+			'class': 'form-control',
+			'id' : 'birthday',
+			'type': 'text',
+			'placeholder':"",
+			'data-datepicker':""})
+	)
+
+	activities = forms.ModelMultipleChoiceField(
+		label="Les activités de l'éleve",
+		widget=forms.CheckboxSelectMultiple(attrs={
+			'class' : "form-check-input",
+			'type' : "checkbox",
+		}), queryset=Activity.objects.all()
+	)
 	class Meta:
 		model = Student
 		fields = (
@@ -129,7 +172,7 @@ class VillaForm(forms.ModelForm):
 		queryset=Magazin.objects.all(),
 		label='Le nom du magazin',
 		widget=forms.Select(attrs={
-		'class': 'form-control'}))
+		'class': 'form-control form-select'}))
 
 	class Meta:
 		model = Villa
@@ -141,12 +184,12 @@ class FactureForm(forms.ModelForm):
 	magazin = forms.ModelChoiceField(queryset=Magazin.objects.all(),
 					  label='Le nom du magazin',
 					widget=forms.Select(attrs={
-					'class': 'form-control'}))
+					'class': 'form-control form-select'}))
 
 	operateur = forms.ModelChoiceField(queryset=User.objects.all(),
 					  label="L'operateur",
 					widget=forms.Select(attrs={
-					'class': 'form-control'}))
+					'class': 'form-control form-select'}))
 
 	somme_operation = forms.DecimalField(
 						  label="Le frais d'operation",
@@ -176,7 +219,7 @@ class FactureForm(forms.ModelForm):
 					choices=[("validée et payée", "Validée Et Payée"), ("pas encore", "Pas Encore")],
 					  label="L'etat de facture",
 					widget=forms.Select(attrs={
-					'class': 'form-control'}))
+					'class': 'form-control form-select'}))
 	class Meta:
 		model = Facture
 		fields = '__all__'
@@ -186,12 +229,12 @@ class AbonementForm(forms.ModelForm):
 	magazin = forms.ModelChoiceField(queryset=Magazin.objects.all(),
 					  label='Le nom du magazin',
 					widget=forms.Select(attrs={
-					'class': 'form-control'}))
+					'class': 'form-control form-select'}))
 
 	operateur = forms.ModelChoiceField(queryset=Parent.objects.all(),
 					  label="L'operateur",
 					widget=forms.Select(attrs={
-					'class': 'form-control'}))
+					'class': 'form-control form-select'}))
 
 	somme_operation = forms.DecimalField(
 						label="Le frais d'operation",
@@ -230,25 +273,15 @@ class MatiereForm(forms.ModelForm):
 		label = "le nom de la matiere",
 		widget=forms.TextInput(attrs={'class' : "form-control"}))
 
-	prix_matiere = forms.DecimalField(
-		label= "le prix du cours",
-		widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
 	class Meta:
 		model = Matiere
 		fields = '__all__'
 
+from django.conf import settings
 class Cours_particulierForm(forms.ModelForm):
-	matiere = forms.ModelChoiceField(
-		queryset=Matiere.objects.all(),
-		label = "le nom de la matiere",
-		widget=forms.Select(attrs={'class': 'form-control'}))
-
-	classe = forms.ModelChoiceField(
-		queryset=Classe.objects.all(),
-		label = "dans quelle classe?",
-		widget=forms.Select(attrs={
-					'class': 'form-control'}))
+	def __init__(self, *args, **kwargs):
+		super(Cours_particulierForm, self).__init__(*args, **kwargs)
+		self.fields['cours_type'].widget.attrs['class'] = 'form-control form-select'
 
 	nom_etudiant = forms.CharField(label = "le nom de l'eleve",
 		widget=forms.TextInput(attrs={'class' : "form-control"}))
@@ -256,9 +289,27 @@ class Cours_particulierForm(forms.ModelForm):
 	prenom_etudiant = forms.CharField(label = "le prenom de l'eleve",
 		widget=forms.TextInput(attrs={'class' : "form-control"}))
 
+	matiere = forms.ModelChoiceField(
+		queryset=Matiere.objects.all(),
+		label = "le nom de la matiere",
+		widget=forms.Select(attrs={'class': 'form-control form-select'}))
+
+	prix_matiere = forms.DecimalField(
+		label = "le prix de la matiere",
+		widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+	date_de_creation = forms.DateField(
+					  label="La date de creation du facture",
+					input_formats=settings.DATE_INPUT_FORMATS,
+					widget=forms.DateInput(attrs={
+						'class': 'form-control',
+						'type': 'text',
+						'placeholder':"",
+						'data-datepicker':""}))
+
 	class Meta:
 		model = Cours_particulier
-		fields = '__all__'
+		fields = ('nom_etudiant', 'prenom_etudiant', 'matiere', 'prix_matiere', 'cours_type', 'date_de_creation')
 
 class ActivityForm(forms.ModelForm):
 	activity_name = forms.CharField(

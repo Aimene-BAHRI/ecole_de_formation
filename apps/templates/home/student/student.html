@@ -19,22 +19,51 @@
 				{% csrf_token %}
 				<div class="container-fluid">
 					<div class="row">
-					{% for field in student_form %}
-						<!-- Form -->
-						<div class="col-md-4 form-group">
-							<label for="{{ field.label }}">{{ field.label }}</label>
-							<div class="input-group">
-								<span class="input-group-text" id="basic-addon1">
-									<span class="fas fa-user-circle"></span>
-								</span>
-								{{ field }}
-							</div>
+						<div class="row">
+							{% for field in student_form %}
+								{% if field == student_form.activities %}
+									<div class="col-md-12 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<div class="mb-3">
+												<span class="h6 font-weight-bold">{{field.label}}</span>
+											</div>
+											<div class="form-check ">
+												{% for value, label in student_form.activities.field.choices %}
+												{% for label2 in student.activities.all %}
+												{% if label == label2 %}
+													{{ label }} __ {{ label2 }}
+												{% endif %}	
+												{% endfor %}
+												<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+													<li style="list-style-type: none;">
+														<input class="form-check-input" name="{{student_form.activities.name}}"
+														id="id_activities_{{ value }}" type="checkbox" value="{{value}}"
+														{% if label in student.activities.all %} checked {% endif %}>
+														<label class="form-check-label checkbox-label-container" for="{{label}}">{{label}}</label>
+													</li>
+												</div>
+												{% endfor %}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+								{% else %}
+									<div class="col-md-6 mb-3">
+										<!-- Form -->
+										<div class="form-group mb-4">
+											<label for="{{field.label}}">{{field.label}}</label>
+											<div class="input-group">
+												{{ field }}
+											</div>
+										</div>
+										<!-- End of Form -->
+									</div>
+								{% endif %}
+							{% endfor %}
+							<hr>
+							{{ study_level_form }}
 						</div>
-						<!-- End of Form -->
-					{% endfor %}
-					<hr>
-						{{ study_level_form }}
-					</div>
 				</div>
 				<div class="d-grid">
 					<button type="submit" name="register" class="btn btn-gray-800 mt-3">Modifier</button>
@@ -43,22 +72,6 @@
 			<br />
         </div>
     </div>
-	{% if student.activities %}
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-		Les Activitées
-    </div>
-	<div class="row">
-		<div class="col-12 col-xl-12">
-
-        </div>
-        <div class="col-12 col-xl-12">
-			{% for activity in student.activities %}
-			{{activity }}
-			{% endfor %}
-			<br />
-        </div>
-    </div>
-	{% endif %}
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
