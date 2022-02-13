@@ -1,0 +1,4 @@
+{
+	"appService.defaultWebAppToDeploy": "/subscriptions/825802da-cc77-4af7-b69b-ebd23759f6bb/resourceGroups/DefaultResourceGroup-PAR/providers/Microsoft.Web/sites/farabi-school",
+	"appService.deploySubpath": "."
+}

@@ -306,6 +306,19 @@ def export_pdf_abonement(request, pk):
             return render_to_pdf_response(request,'home/render_abonement.html', {'invoice':facture,'today':today})
         except Abonement.DoesNotExist:
             return redirect(reverse('mes_abonements'))
+
+@login_required(login_url="/login/")
+def export_pdf_particular_cours(request, pk):
+    if request.user.is_superuser:
+        print('hahaha admin')
+        cours = Cours_particulier.objects.get(pk = pk)
+        return render_to_pdf_response(request,'home/render_cours.html', {'invoice':cours,'today':today})
+    else:
+        try:
+            cours = Cours_particulier.objects.get(pk = pk, operateur = request.user)
+            return render_to_pdf_response(request,'home/render_cours.html', {'invoice':cours,'today':today})
+        except Abonement.DoesNotExist:
+            return redirect(reverse('mes_abonements'))
 # FILS
 def create_student(request):
     student_form = StudentForm()

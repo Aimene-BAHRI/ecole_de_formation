@@ -8,8 +8,8 @@
 {% block content %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-	<a href="{% url 'home' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-		Export PDF
+	<a href="{% url 'export_pdf_particular_cours' cours.id %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+		Exporter PDF
 	</a>
 </div>
 <div class="row">

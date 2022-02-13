@@ -197,7 +197,7 @@ class FactureForm(forms.ModelForm):
 						'class': 'form-control'}))
 
 	reste_a_paier = forms.DecimalField(
-						label="Le reste à Paier",
+						label="Le reste à Payer",
 						widget=forms.NumberInput(attrs={
 						'class': 'form-control'}))
 
@@ -242,7 +242,7 @@ class AbonementForm(forms.ModelForm):
 						'class': 'form-control'}))
 
 	reste_a_paier = forms.DecimalField(
-						label="Le reste à Paier",
+						label="Le reste à Payer",
 						widget=forms.NumberInput(attrs={
 						'class': 'form-control'}))
 
